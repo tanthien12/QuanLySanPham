@@ -1552,7 +1552,7 @@
 											"top": 186,
 											"width": 295,
 											"height": 13,
-											"text": "+DonGia: DECIMAL",
+											"text": "+DonGia: Double",
 											"horizontalAlignment": 0
 										}
 									],
@@ -1817,7 +1817,7 @@
 											"top": 115,
 											"width": 242.4931640625,
 											"height": 13,
-											"text": "+VaiTro: ENUM",
+											"text": "+VaiTro: String",
 											"horizontalAlignment": 0
 										}
 									],
@@ -5078,7 +5078,7 @@
 								"$ref": "AAAAAAGOshaO+4WM948="
 							},
 							"name": "DonGia",
-							"type": "DECIMAL"
+							"type": "Double"
 						}
 					],
 					"operations": [
@@ -5175,7 +5175,7 @@
 								"$ref": "AAAAAAGOshl06YXFYBc="
 							},
 							"name": "VaiTro",
-							"type": "ENUM"
+							"type": "String"
 						}
 					],
 					"operations": [
