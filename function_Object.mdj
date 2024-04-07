@@ -1077,7 +1077,7 @@
 											"font": "Arial;13;1",
 											"left": 485,
 											"top": 71,
-											"width": 314.005859375,
+											"width": 315.478515625,
 											"height": 13,
 											"text": "khachhang"
 										},
@@ -1112,7 +1112,7 @@
 									"font": "Arial;13;0",
 									"left": 480,
 									"top": 64,
-									"width": 324.005859375,
+									"width": 325.478515625,
 									"height": 25,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGOsggaqYU6+iQ="
@@ -1149,7 +1149,7 @@
 											"font": "Arial;13;0",
 											"left": 485,
 											"top": 94,
-											"width": 314.005859375,
+											"width": 315.478515625,
 											"height": 13,
 											"text": "+MaKhachHang: int",
 											"horizontalAlignment": 0
@@ -1166,7 +1166,7 @@
 											"font": "Arial;13;0",
 											"left": 485,
 											"top": 109,
-											"width": 314.005859375,
+											"width": 315.478515625,
 											"height": 13,
 											"text": "+TenKhachHang: String",
 											"horizontalAlignment": 0
@@ -1183,7 +1183,7 @@
 											"font": "Arial;13;0",
 											"left": 485,
 											"top": 124,
-											"width": 314.005859375,
+											"width": 315.478515625,
 											"height": 13,
 											"text": "+DiaChi: String",
 											"horizontalAlignment": 0
@@ -1200,7 +1200,7 @@
 											"font": "Arial;13;0",
 											"left": 485,
 											"top": 139,
-											"width": 314.005859375,
+											"width": 315.478515625,
 											"height": 13,
 											"text": "+DienThoai: String",
 											"horizontalAlignment": 0
@@ -1217,7 +1217,7 @@
 											"font": "Arial;13;0",
 											"left": 485,
 											"top": 154,
-											"width": 314.005859375,
+											"width": 315.478515625,
 											"height": 13,
 											"text": "+Email: String",
 											"horizontalAlignment": 0
@@ -1226,7 +1226,7 @@
 									"font": "Arial;13;0",
 									"left": 480,
 									"top": 89,
-									"width": 324.005859375,
+									"width": 325.478515625,
 									"height": 83
 								},
 								{
@@ -1251,7 +1251,7 @@
 											"font": "Arial;13;0",
 											"left": 485,
 											"top": 177,
-											"width": 314.005859375,
+											"width": 315.478515625,
 											"height": 13,
 											"text": "+boolean themKhachHang(khachhang khachHang)",
 											"horizontalAlignment": 0
@@ -1268,9 +1268,9 @@
 											"font": "Arial;13;0",
 											"left": 485,
 											"top": 192,
-											"width": 314.005859375,
+											"width": 315.478515625,
 											"height": 13,
-											"text": "+boolean suaKhachHang(khachhang khachHang)",
+											"text": "+boolean capNhatKhachHang(khachhang khachHang)",
 											"horizontalAlignment": 0
 										},
 										{
@@ -1285,7 +1285,7 @@
 											"font": "Arial;13;0",
 											"left": 485,
 											"top": 207,
-											"width": 314.005859375,
+											"width": 315.478515625,
 											"height": 13,
 											"text": "+xemKhachHang(): list<khachhang>",
 											"horizontalAlignment": 0
@@ -1302,7 +1302,7 @@
 											"font": "Arial;13;0",
 											"left": 485,
 											"top": 222,
-											"width": 314.005859375,
+											"width": 315.478515625,
 											"height": 13,
 											"text": "+boolean timKiemKhachHang(khachhang khachHang)",
 											"horizontalAlignment": 0
@@ -1311,7 +1311,7 @@
 									"font": "Arial;13;0",
 									"left": 480,
 									"top": 172,
-									"width": 324.005859375,
+									"width": 325.478515625,
 									"height": 68
 								},
 								{
@@ -1351,7 +1351,7 @@
 							"containerChangeable": true,
 							"left": 480,
 							"top": 64,
-							"width": 324.005859375,
+							"width": 325.478515625,
 							"height": 193,
 							"nameCompartment": {
 								"$ref": "AAAAAAGOsggaqYU5CsU="
@@ -3549,7 +3549,7 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": 838,
+									"left": 839,
 									"top": 157,
 									"height": 13,
 									"alpha": 1.5707963267948966,
@@ -3570,7 +3570,7 @@
 									},
 									"visible": null,
 									"font": "Arial;13;0",
-									"left": 840,
+									"left": 841,
 									"top": 142,
 									"height": 13,
 									"alpha": 1.5707963267948966,
@@ -3591,7 +3591,7 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": 835,
+									"left": 836,
 									"top": 186,
 									"height": 13,
 									"alpha": -1.5707963267948966,
@@ -3612,7 +3612,7 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": 831,
+									"left": 832,
 									"top": 156,
 									"height": 13,
 									"alpha": 0.5235987755982988,
@@ -3633,7 +3633,7 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": 835,
+									"left": 836,
 									"top": 143,
 									"height": 13,
 									"alpha": 0.7853981633974483,
@@ -3654,7 +3654,7 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": 824,
+									"left": 825,
 									"top": 183,
 									"height": 13,
 									"alpha": -0.5235987755982988,
@@ -3761,7 +3761,7 @@
 								"$ref": "AAAAAAGOsggaqYU4ijo="
 							},
 							"lineStyle": 1,
-							"points": "804:175;871:182",
+							"points": "805:175;871:182",
 							"showVisibility": true,
 							"nameLabel": {
 								"$ref": "AAAAAAGOuR2flCt36s8="
@@ -4974,7 +4974,7 @@
 							"_parent": {
 								"$ref": "AAAAAAGOsggaqYU2+ME="
 							},
-							"name": "boolean suaKhachHang",
+							"name": "boolean capNhatKhachHang",
 							"parameters": [
 								{
 									"_type": "UMLParameter",
@@ -4982,8 +4982,7 @@
 									"_parent": {
 										"$ref": "AAAAAAGOsghe4YVoRQw="
 									},
-									"name": "khachhang khachHang",
-									"type": ""
+									"name": "khachhang khachHang"
 								}
 							]
 						},
