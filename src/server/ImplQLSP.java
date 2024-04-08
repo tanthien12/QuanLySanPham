@@ -296,32 +296,96 @@ public class ImplQLSP extends UnicastRemoteObject implements InterfaceQLSP {
 
 	@Override
 	public boolean themDonHang(DonHang donHang) throws RemoteException {
-		// TODO Auto-generated method stub
-		return false;
+		String sql = "INSERT INTO donhang (MaKhachHang, MaNhanVien, NgayDatHang, TrangThai) VALUES (?, ?, ?, ?)";
+	    try (PreparedStatement statement = connection.prepareStatement(sql)) {
+	        statement.setInt(1, donHang.getMaKhachHang());
+	        statement.setInt(2, donHang.getMaNhanVien());
+	        statement.setString(3, donHang.getNgayDatHang());
+	        statement.setString(4, donHang.getTrangThai());
+	        int rowsInserted = statement.executeUpdate();
+	        return rowsInserted > 0;
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        return false;
+	    }
 	}
 
 	@Override
 	public boolean xoaDonHang(int maDonHang) throws RemoteException {
-		// TODO Auto-generated method stub
-		return false;
+		String sql = "DELETE FROM donhang WHERE MaDonHang = ?";
+	    try (PreparedStatement statement = connection.prepareStatement(sql)) {
+	        statement.setInt(1, maDonHang);
+	        int rowsDeleted = statement.executeUpdate();
+	        return rowsDeleted > 0;
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        return false;
+	    }
 	}
 
 	@Override
 	public boolean capNhatDonHang(DonHang donHang) throws RemoteException {
-		// TODO Auto-generated method stub
-		return false;
+		String sql = "UPDATE donhang SET MaKhachHang = ?, MaNhanVien = ?, NgayDatHang = ?, TrangThai = ? WHERE MaDonHang = ?";
+	    try (PreparedStatement statement = connection.prepareStatement(sql)) {
+	        statement.setInt(1, donHang.getMaKhachHang());
+	        statement.setInt(2, donHang.getMaNhanVien());
+	        statement.setString(3, donHang.getNgayDatHang());
+	        statement.setString(4, donHang.getTrangThai());
+	        statement.setInt(5, donHang.getMaDonHang());
+	        int rowsUpdated = statement.executeUpdate();
+	        return rowsUpdated > 0;
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        return false;
+	    }
 	}
 
 	@Override
 	public boolean timKiemDonHang(String tenDonHang) throws RemoteException {
-		// TODO Auto-generated method stub
-		return false;
+		String sql = "SELECT * FROM donhang WHERE TrangThai LIKE ?";
+	    try (PreparedStatement statement = connection.prepareStatement(sql)) {
+	        statement.setString(1, "%" + tenDonHang + "%");
+	        ResultSet resultSet = statement.executeQuery();
+	        List<DonHang> donHangList = new ArrayList<>();
+	        while (resultSet.next()) {
+	            int maDonHang = resultSet.getInt("MaDonHang");
+	            int maKhachHang = resultSet.getInt("MaKhachHang");
+	            int maNhanVien = resultSet.getInt("MaNhanVien");
+	            String ngayDatHang = resultSet.getString("NgayDatHang");
+	            String trangThai = resultSet.getString("TrangThai");
+	            DonHang dh = new DonHang(maDonHang, maKhachHang, maNhanVien, ngayDatHang, trangThai);
+	            donHangList.add(dh);
+	        }
+	        // In kết quả tìm kiếm
+	        for (DonHang dh : donHangList) {
+	            System.out.println(dh);
+	        }
+	        return !donHangList.isEmpty();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        return false;
+	    }
 	}
 
 	@Override
 	public List<DonHang> xemDonHang() throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
+		List<DonHang> donHangList = new ArrayList<>();
+	    String sql = "SELECT * FROM donhang";
+	    try (PreparedStatement statement = connection.prepareStatement(sql)) {
+	        ResultSet resultSet = statement.executeQuery();
+	        while (resultSet.next()) {
+	            int maDonHang = resultSet.getInt("MaDonHang");
+	            int maKhachHang = resultSet.getInt("MaKhachHang");
+	            int maNhanVien = resultSet.getInt("MaNhanVien");
+	            String ngayDatHang = resultSet.getString("NgayDatHang");
+	            String trangThai = resultSet.getString("TrangThai");
+	            DonHang dh = new DonHang(maDonHang, maKhachHang, maNhanVien, ngayDatHang, trangThai);
+	            donHangList.add(dh);
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return donHangList;
 	}
 
 	@Override
