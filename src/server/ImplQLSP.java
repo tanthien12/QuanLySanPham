@@ -166,8 +166,29 @@ public class ImplQLSP extends UnicastRemoteObject implements InterfaceQLSP {
 
 	@Override
 	public boolean timKiemNhanVien(String tenNhanVien) throws RemoteException {
-	    // TODO: Triển khai tìm kiếm nhân viên theo tên
-	    return false;
+		String sql = "SELECT * FROM nhanvien WHERE TenNhanVien LIKE ?";
+	    try (PreparedStatement statement = connection.prepareStatement(sql)) {
+	        statement.setString(1, "%" + tenNhanVien + "%");
+	        ResultSet resultSet = statement.executeQuery();
+	        List<NhanVien> nhanVienList = new ArrayList<>();
+	        while (resultSet.next()) {
+	            int maNhanVien = resultSet.getInt("MaNhanVien");
+	            String tenNV = resultSet.getString("TenNhanVien");
+	            String chucVu = resultSet.getString("ChucVu");
+	            double luong = resultSet.getDouble("Luong");
+	            String ngayBatDau = resultSet.getString("NgayBatDau");
+	            NhanVien nv = new NhanVien(maNhanVien, tenNV, chucVu, luong, ngayBatDau);
+	            nhanVienList.add(nv);
+	        }
+	        // In kết quả tìm kiếm
+	        for (NhanVien nv : nhanVienList) {
+	            System.out.println(nv);
+	        }
+	        return !nhanVienList.isEmpty();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        return false;
+	    }
 	}
 
 	@Override
