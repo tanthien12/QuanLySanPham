@@ -390,8 +390,23 @@ public class ImplQLSP extends UnicastRemoteObject implements InterfaceQLSP {
 
 	@Override
 	public List<ChiTietHoaDon> xemSachDonHang() throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
+		List<ChiTietHoaDon> chiTietList = new ArrayList<>();
+	    String sql = "SELECT * FROM chitiet_hoadon";
+	    try (PreparedStatement statement = connection.prepareStatement(sql)) {
+	        ResultSet resultSet = statement.executeQuery();
+	        while (resultSet.next()) {
+	            int id = resultSet.getInt("ID");
+	            int maDonHang = resultSet.getInt("MaDonHang");
+	            int maSanPham = resultSet.getInt("MaSanPham");
+	            int soLuong = resultSet.getInt("SoLuong");
+	            double donGia = resultSet.getDouble("DonGia");
+	            ChiTietHoaDon chiTiet = new ChiTietHoaDon(id, maDonHang, maSanPham, soLuong, donGia);
+	            chiTietList.add(chiTiet);
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return chiTietList;
 	}
 
 	@Override
