@@ -120,33 +120,77 @@ public class ImplQLSP extends UnicastRemoteObject implements InterfaceQLSP {
 
 	@Override
 	public boolean themNhanVien(NhanVien nhanVien) throws RemoteException {
-		// TODO Auto-generated method stub
-		return false;
+	    String sql = "INSERT INTO nhanvien (TenNhanVien, ChucVu, Luong, NgayBatDau) VALUES (?, ?, ?, ?)";
+	    try (PreparedStatement statement = connection.prepareStatement(sql)) {
+	        statement.setString(1, nhanVien.getTenNhanVien());
+	        statement.setString(2, nhanVien.getChucVu());
+	        statement.setDouble(3, nhanVien.getLuong());
+	        statement.setString(4, nhanVien.getNgayBatDau());
+	        int rowsAffected = statement.executeUpdate();
+	        return rowsAffected > 0;
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        return false;
+	    }
 	}
 
 	@Override
 	public boolean xoaNhanVien(int maNhanVien) throws RemoteException {
-		// TODO Auto-generated method stub
-		return false;
+	    String sql = "DELETE FROM nhanvien WHERE MaNhanVien = ?";
+	    try (PreparedStatement statement = connection.prepareStatement(sql)) {
+	        statement.setInt(1, maNhanVien);
+	        int rowsAffected = statement.executeUpdate();
+	        return rowsAffected > 0;
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        return false;
+	    }
 	}
 
 	@Override
 	public boolean capNhatNhanVien(NhanVien nhanVien) throws RemoteException {
-		// TODO Auto-generated method stub
-		return false;
+	    String sql = "UPDATE nhanvien SET TenNhanVien = ?, ChucVu = ?, Luong = ?, NgayBatDau = ? WHERE MaNhanVien = ?";
+	    try (PreparedStatement statement = connection.prepareStatement(sql)) {
+	        statement.setString(1, nhanVien.getTenNhanVien());
+	        statement.setString(2, nhanVien.getChucVu());
+	        statement.setDouble(3, nhanVien.getLuong());
+	        statement.setString(4, nhanVien.getNgayBatDau());
+	        statement.setInt(5, nhanVien.getMaNhanVien());
+	        int rowsAffected = statement.executeUpdate();
+	        return rowsAffected > 0;
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        return false;
+	    }
 	}
 
 	@Override
 	public boolean timKiemNhanVien(String tenNhanVien) throws RemoteException {
-		// TODO Auto-generated method stub
-		return false;
+	    // TODO: Triển khai tìm kiếm nhân viên theo tên
+	    return false;
 	}
 
 	@Override
 	public List<NhanVien> xemNhanVien() throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
+	    List<NhanVien> nhanVienList = new ArrayList<>();
+	    String sql = "SELECT * FROM nhanvien";
+	    try (PreparedStatement statement = connection.prepareStatement(sql)) {
+	        ResultSet resultSet = statement.executeQuery();
+	        while (resultSet.next()) {
+	            int maNhanVien = resultSet.getInt("MaNhanVien");
+	            String tenNV = resultSet.getString("TenNhanVien");
+	            String chucVu = resultSet.getString("ChucVu");
+	            double luong = resultSet.getDouble("Luong");
+	            String ngayBatDau = resultSet.getString("NgayBatDau");
+	            NhanVien nv = new NhanVien(maNhanVien, tenNV, chucVu, luong, ngayBatDau);
+	            nhanVienList.add(nv);
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return nhanVienList;
 	}
+
 
 	@Override
 	public boolean themKhachHang(KhachHang khachHang) throws RemoteException {
