@@ -215,26 +215,83 @@ public class ImplQLSP extends UnicastRemoteObject implements InterfaceQLSP {
 
 	@Override
 	public boolean themKhachHang(KhachHang khachHang) throws RemoteException {
-		// TODO Auto-generated method stub
-		return false;
+		String sql = "INSERT INTO khachhang (TenKhachHang, DiaChi, SoDienThoai, Email) VALUES (?, ?, ?, ?)";
+	    try (PreparedStatement statement = connection.prepareStatement(sql)) {
+	        statement.setString(1, khachHang.getTenKhachHang());
+	        statement.setString(2, khachHang.getDiaChi());
+	        statement.setString(3, khachHang.getSoDienThoai());
+	        statement.setString(4, khachHang.getEmail());
+	        int rowsInserted = statement.executeUpdate();
+	        return rowsInserted > 0;
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        return false;
+	    }
 	}
 
 	@Override
 	public boolean capNhatKhachHang(KhachHang khachHang) throws RemoteException {
-		// TODO Auto-generated method stub
-		return false;
+		String sql = "UPDATE khachhang SET TenKhachHang = ?, DiaChi = ?, SoDienThoai = ?, Email = ? WHERE MaKhachHang = ?";
+	    try (PreparedStatement statement = connection.prepareStatement(sql)) {
+	        statement.setString(1, khachHang.getTenKhachHang());
+	        statement.setString(2, khachHang.getDiaChi());
+	        statement.setString(3, khachHang.getSoDienThoai());
+	        statement.setString(4, khachHang.getEmail());
+	        statement.setInt(5, khachHang.getMaKhachHang());
+	        int rowsUpdated = statement.executeUpdate();
+	        return rowsUpdated > 0;
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        return false;
+	    }
 	}
 
 	@Override
 	public boolean timKiemKhachHang(String tenKhachHang) throws RemoteException {
-		// TODO Auto-generated method stub
-		return false;
+		String sql = "SELECT * FROM khachhang WHERE TenKhachHang LIKE ?";
+	    try (PreparedStatement statement = connection.prepareStatement(sql)) {
+	        statement.setString(1, "%" + tenKhachHang + "%");
+	        ResultSet resultSet = statement.executeQuery();
+	        List<KhachHang> khachHangList = new ArrayList<>();
+	        while (resultSet.next()) {
+	            int maKhachHang = resultSet.getInt("MaKhachHang");
+	            String tenKH = resultSet.getString("TenKhachHang");
+	            String diaChi = resultSet.getString("DiaChi");
+	            String soDienThoai = resultSet.getString("SoDienThoai");
+	            String email = resultSet.getString("Email");
+	            KhachHang kh = new KhachHang(maKhachHang, tenKH, diaChi, soDienThoai, email);
+	            khachHangList.add(kh);
+	        }
+	        // In kết quả tìm kiếm
+	        for (KhachHang kh : khachHangList) {
+	            System.out.println(kh);
+	        }
+	        return !khachHangList.isEmpty();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        return false;
+	    }
 	}
 
 	@Override
 	public List<KhachHang> xemKhachHang() throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
+		List<KhachHang> khachHangList = new ArrayList<>();
+	    String sql = "SELECT * FROM khachhang";
+	    try (PreparedStatement statement = connection.prepareStatement(sql)) {
+	        ResultSet resultSet = statement.executeQuery();
+	        while (resultSet.next()) {
+	            int maKhachHang = resultSet.getInt("MaKhachHang");
+	            String tenKH = resultSet.getString("TenKhachHang");
+	            String diaChi = resultSet.getString("DiaChi");
+	            String soDienThoai = resultSet.getString("SoDienThoai");
+	            String email = resultSet.getString("Email");
+	            KhachHang kh = new KhachHang(maKhachHang, tenKH, diaChi, soDienThoai, email);
+	            khachHangList.add(kh);
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return khachHangList;
 	}
 
 	@Override
