@@ -411,8 +411,17 @@ public class ImplQLSP extends UnicastRemoteObject implements InterfaceQLSP {
 
 	@Override
 	public boolean taoTaiKhoan(TaiKhoan taiKhoan) throws RemoteException {
-		// TODO Auto-generated method stub
-		return false;
+		String sql = "INSERT INTO taikhoan (TenDangNhap, MatKhau, VaiTro) VALUES (?, ?, ?)";
+	    try (PreparedStatement statement = connection.prepareStatement(sql)) {
+	        statement.setString(1, taiKhoan.getTenDangNhap());
+	        statement.setString(2, taiKhoan.getMatKhau());
+	        statement.setString(3, taiKhoan.getVaiTro());
+	        int rowsInserted = statement.executeUpdate();
+	        return rowsInserted > 0;
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        return false;
+	    }
 	}
 	
 
