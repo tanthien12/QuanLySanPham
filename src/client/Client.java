@@ -6,7 +6,7 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.List;
 
-import server.ChiTietHoaDon;
+import server.DonHang;
 import server.InterfaceQLSP;
 
 public class Client {
@@ -15,10 +15,11 @@ public class Client {
 		try {
 			qlspService = (InterfaceQLSP) Naming.lookup("rmi://localhost/QLSPService");
 	
+			// Thêm 
 			// Hiển thị danh sách Sản Phẩm 
             System.out.println("\nList");
-            List<ChiTietHoaDon> nvList = qlspService.xemSachDonHang();
-            for (ChiTietHoaDon nv : nvList) {
+            List<DonHang> nvList = qlspService.xemDonHang();
+            for (DonHang nv : nvList) {
                 System.out.println(nv);
             }
             DangNhap loginFrame = new DangNhap();

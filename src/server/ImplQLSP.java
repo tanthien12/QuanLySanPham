@@ -1,13 +1,13 @@
 package server;
 
 import java.rmi.RemoteException;
+
 import java.rmi.server.UnicastRemoteObject;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -288,13 +288,14 @@ public class ImplQLSP extends UnicastRemoteObject implements InterfaceQLSP {
 
 	@Override
 	public boolean themDonHang(DonHang donHang) throws RemoteException {
-		String sql = "INSERT INTO donhang (MaKhachHang, MaNhanVien, NgayDatHang, TrangThai) VALUES (?, ?, ?, ?)";
+		String sql = "INSERT INTO donhang (MaDonHang, TenDonHang, MaKhachHang, MaNhanVien, NgayDatHang, TrangThai) VALUES (?, ?, ?, ?, ?, ?)";
 	    try (PreparedStatement statement = connection.prepareStatement(sql)) {
 	    	statement.setInt(1, donHang.getMaDonHang());
-	        statement.setInt(2, donHang.getMaKhachHang());
-	        statement.setInt(3, donHang.getMaNhanVien());
-	        statement.setObject(4, donHang.getNgayDatHang());
-	        statement.setString(5, donHang.getTrangThai());
+	    	statement.setString(2, donHang.getTenDonHang());
+	        statement.setInt(3, donHang.getMaKhachHang());
+	        statement.setInt(4, donHang.getMaNhanVien());
+	        statement.setDate(5, donHang.getNgayDatHang());
+	        statement.setString(6, donHang.getTrangThai());
 	        int rowsInserted = statement.executeUpdate();
 	        return rowsInserted > 0;
 	    } catch (SQLException e) {
@@ -318,13 +319,15 @@ public class ImplQLSP extends UnicastRemoteObject implements InterfaceQLSP {
 
 	@Override
 	public boolean capNhatDonHang(DonHang donHang) throws RemoteException {
-		String sql = "UPDATE donhang SET MaKhachHang = ?, MaNhanVien = ?, NgayDatHang = ?, TrangThai = ? WHERE MaDonHang = ?";
+		String sql = "UPDATE donhang SET TenDonHang = ?, MaKhachHang = ?, MaNhanVien = ?, NgayDatHang = ?, TrangThai = ? WHERE MaDonHang = ?";
 	    try (PreparedStatement statement = connection.prepareStatement(sql)) {
-	        statement.setInt(1, donHang.getMaKhachHang());
-	        statement.setInt(2, donHang.getMaNhanVien());
-	        statement.setObject(3, donHang.getNgayDatHang());
-	        statement.setString(4, donHang.getTrangThai());
-	        statement.setInt(5, donHang.getMaDonHang());
+	    	
+	    	statement.setString(1, donHang.getTenDonHang());
+	        statement.setInt(2, donHang.getMaKhachHang());
+	        statement.setInt(3, donHang.getMaNhanVien());
+	        statement.setDate(4, donHang.getNgayDatHang());
+	        statement.setString(5, donHang.getTrangThai());
+	        statement.setInt(6, donHang.getMaDonHang());
 	        int rowsUpdated = statement.executeUpdate();
 	        return rowsUpdated > 0;
 	    } catch (SQLException e) {
@@ -335,18 +338,19 @@ public class ImplQLSP extends UnicastRemoteObject implements InterfaceQLSP {
 
 	@Override
 	public List<DonHang> timKiemDonHang(String tenDonHang) throws RemoteException {
-		String sql = "SELECT * FROM donhang WHERE TrangThai LIKE ?";
+		String sql = "SELECT * FROM donhang WHERE TenDonHang LIKE ?";
 	    List<DonHang> donHangList = new ArrayList<>();
 	    try (PreparedStatement statement = connection.prepareStatement(sql)) {
 	        statement.setString(1, "%" + tenDonHang + "%");
 	        ResultSet resultSet = statement.executeQuery();
 	        while (resultSet.next()) {
 	            int maDonHang = resultSet.getInt("MaDonHang");
+	            String tenDonHang1 = resultSet.getString("TenDonHang");
 	            int maKhachHang = resultSet.getInt("MaKhachHang");
 	            int maNhanVien = resultSet.getInt("MaNhanVien");
-	            LocalDate ngayDatHang = resultSet.getDate("NgayDatHang").toLocalDate();
+	            Date ngayDatHang = resultSet.getDate("NgayDatHang");
 	            String trangThai = resultSet.getString("TrangThai");
-	            DonHang dh = new DonHang(maDonHang, maKhachHang, maNhanVien, ngayDatHang, trangThai);
+	            DonHang dh = new DonHang(maDonHang, tenDonHang1, maKhachHang, maNhanVien, ngayDatHang, trangThai);
 	            donHangList.add(dh);
 	        }
 	    } catch (SQLException e) {
@@ -363,11 +367,12 @@ public class ImplQLSP extends UnicastRemoteObject implements InterfaceQLSP {
 	        ResultSet resultSet = statement.executeQuery();
 	        while (resultSet.next()) {
 	            int maDonHang = resultSet.getInt("MaDonHang");
+	            String tenDonHang = resultSet.getString("TenDonHang");
 	            int maKhachHang = resultSet.getInt("MaKhachHang");
 	            int maNhanVien = resultSet.getInt("MaNhanVien");
-	            LocalDate ngayDatHang = (LocalDate) resultSet.getObject("NgayDatHang");
+	            Date ngayDatHang = resultSet.getDate("NgayDatHang");
 	            String trangThai = resultSet.getString("TrangThai");
-	            DonHang dh = new DonHang(maDonHang, maKhachHang, maNhanVien, ngayDatHang, trangThai);
+	            DonHang dh = new DonHang(maDonHang, tenDonHang, maKhachHang, maNhanVien, ngayDatHang, trangThai);
 	            donHangList.add(dh);
 	        }
 	    } catch (SQLException e) {

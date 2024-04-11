@@ -76,6 +76,9 @@ public class Menu extends JFrame {
 		JButton btnDonHang = new JButton("ĐƠN HÀNG");
 		btnDonHang.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				// Tạo và hiển thị giao diện FormCTDH
+				FormDonHang formDonHang = new FormDonHang();
+				formDonHang.setVisible(true);
 			}
 		});
 		btnDonHang.setFont(new Font("Tahoma", Font.BOLD, 18));

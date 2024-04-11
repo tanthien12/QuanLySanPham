@@ -6,8 +6,8 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
+import server.DonHang;
 import server.InterfaceQLSP;
-import server.SanPham;
 
 import java.awt.event.ActionListener;
 import java.net.MalformedURLException;
@@ -17,7 +17,7 @@ import java.rmi.RemoteException;
 import java.util.List;
 import java.awt.event.ActionEvent;
 
-public class FormSanPham extends JFrame {
+public class FormDonHang extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -38,7 +38,7 @@ public class FormSanPham extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					FormSanPham frame = new FormSanPham();
+					FormDonHang frame = new FormDonHang();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -50,7 +50,7 @@ public class FormSanPham extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public FormSanPham() {
+	public FormDonHang() {
 		
 		try {
 			qlspService = (InterfaceQLSP) Naming.lookup("rmi://localhost/QLSPService");
@@ -70,7 +70,7 @@ public class FormSanPham extends JFrame {
 		contentPane.setLayout(null);
 		
 		scrollPane = new JScrollPane();
-		scrollPane.setBounds(26, 85, 532, 405);
+		scrollPane.setBounds(26, 85, 718, 279);
 		contentPane.add(scrollPane);
 		
 		table = new JTable();
@@ -78,14 +78,14 @@ public class FormSanPham extends JFrame {
 		scrollPane.setViewportView(table);
 		table.setModel(new DefaultTableModel(
 			new Object[][] {
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
+				{null, null, null, null, null, null},
+				{null, null, null, null, null, null},
+				{null, null, null, null, null, null},
+				{null, null, null, null, null, null},
+				{null, null, null, null, null, null},
 			},
 			new String[] {
-				"M\u00E3 S\u1EA3n Ph\u1EA9m", "T\u00EAn S\u1EA3n Ph\u1EA9m", "Gi\u00E1", "M\u00F4 T\u1EA3", "S\u1ED1 L\u01B0\u1EE3ng T\u1ED3n"
+				"M\u00E3 \u0110\u01A1n H\u00E0ng", "T\u00EAn \u0110\u01A1n H\u00E0ng", "M\u00E3 Kh\u00E1ch H\u00E0ng", "M\u00E3 Nh\u00E2n Vi\u00EAn", "Ng\u00E0y \u0110\u1EB7t", "Tr\u1EA1ng Th\u00E1i"
 			}
 		));
 		
@@ -93,35 +93,35 @@ public class FormSanPham extends JFrame {
 		btnADD.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// Tạo và hiển thị giao diện FrameNhapSanPham cho chức năng thêm
-                FrameNhapSanPham frameNhapSanPham = new FrameNhapSanPham("Thêm Sản Phẩm", "Thêm Sản Phẩm");
-                frameNhapSanPham.setVisible(true);
+                FrameNhapDonHang frameNhapDonHang = new FrameNhapDonHang("Thêm Đơn Hàng", "Thêm Đơn Hàng");
+                frameNhapDonHang.setVisible(true);
 			}
 		});
 		btnADD.setFont(new Font("Tahoma", Font.BOLD, 16));
-		btnADD.setBounds(614, 137, 150, 30);
+		btnADD.setBounds(183, 386, 150, 30);
 		contentPane.add(btnADD);
 		
 		btnDEL = new JButton("Xóa");
 		btnDEL.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-                FrameNhapSanPham frameNhapSanPham = new FrameNhapSanPham("Xóa Sản Phẩm", "Xóa Sản Phẩm");
-                frameNhapSanPham.setVisible(true);
+                FrameNhapDonHang frameNhapDonHang = new FrameNhapDonHang("Xóa Đơn Hàng", "Xóa Đơn Hàng");
+                frameNhapDonHang.setVisible(true);
 			}
 		});
 		btnDEL.setFont(new Font("Tahoma", Font.BOLD, 16));
-		btnDEL.setBounds(614, 192, 150, 30);
+		btnDEL.setBounds(183, 441, 150, 30);
 		contentPane.add(btnDEL);
 		
 		btnSa = new JButton("Sửa");
 		btnSa.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// Tạo và hiển thị giao diện FrameNhapSanPham cho chức năng sửa
-                FrameNhapSanPham frameNhapSanPham = new FrameNhapSanPham("Sửa Sản Phẩm", "Sửa Sản Phẩm");
-                frameNhapSanPham.setVisible(true);
+                FrameNhapDonHang frameNhapDonHang = new FrameNhapDonHang("Sửa Đơn Hàng", "Sửa Đơn Hàng");
+                frameNhapDonHang.setVisible(true);
 			}
 		});
 		btnSa.setFont(new Font("Tahoma", Font.BOLD, 16));
-		btnSa.setBounds(614, 245, 150, 30);
+		btnSa.setBounds(460, 386, 150, 30);
 		contentPane.add(btnSa);
 		
 		btnHinThDs = new JButton("Hiển Thị DS\r\n");
@@ -132,76 +132,78 @@ public class FormSanPham extends JFrame {
 			}
 		});
 		btnHinThDs.setFont(new Font("Tahoma", Font.BOLD, 16));
-		btnHinThDs.setBounds(614, 301, 150, 30);
+		btnHinThDs.setBounds(460, 442, 150, 30);
 		contentPane.add(btnHinThDs);
 		
-		JLabel lblNewLabel = new JLabel("Tên sản phẩm:");
+		JLabel lblNewLabel = new JLabel("Tên đơn hàng:");
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNewLabel.setBounds(224, 23, 107, 30);
+		lblNewLabel.setBounds(100, 23, 107, 30);
 		contentPane.add(lblNewLabel);
 		
 		textField = new JTextField();
 		textField.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		textField.setBounds(358, 24, 200, 30);
+		textField.setBounds(231, 23, 305, 30);
 		contentPane.add(textField);
 		textField.setColumns(10);
 		
 		JButton btnNewButton = new JButton("Tìm kiếm");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				 // Lấy tên sản phẩm cần tìm kiếm từ textField
-		        String tenSP = textField.getText();
+				// Lấy tên đơn hàng cần tìm kiếm từ textField
+		        String tenDonHang = textField.getText();
 		        
-		        // Kiểm tra xem người dùng đã nhập tên sản phẩm hay chưa
-		        if (!tenSP.isEmpty()) {
+		        // Kiểm tra xem người dùng đã nhập tên đơn hàng hay chưa
+		        if (!tenDonHang.isEmpty()) {
 		            try {
-		                // Gọi phương thức tìm kiếm sản phẩm từ qlspService
-		                List<SanPham> ketQuaTimKiem = qlspService.timKiemSanPham(tenSP);
+		                // Gọi phương thức tìm kiếm đơn hàng từ qlspService
+		                List<DonHang> ketQuaTimKiem = qlspService.timKiemDonHang(tenDonHang);
 
 		                // Hiển thị kết quả tìm kiếm
 		                if (!ketQuaTimKiem.isEmpty()) {
 		                    DefaultTableModel model = (DefaultTableModel) table.getModel();
 		                    model.setRowCount(0); // Xóa bảng hiện tại để hiển thị kết quả mới
 
-		                    for (SanPham sp : ketQuaTimKiem) {
+		                    for (DonHang dh : ketQuaTimKiem) {
 		                        model.addRow(new Object[]{
-		                            sp.getMaSanPham(),
-		                            sp.getTenSanPham(),
-		                            sp.getGia(),
-		                            sp.getMoTa(),
-		                            sp.getSoLuong()
+		                            dh.getMaDonHang(),
+		                            dh.getTenDonHang(),
+		                            dh.getMaKhachHang(),
+		                            dh.getMaNhanVien(),
+		                            dh.getNgayDatHang(),
+		                            dh.getTrangThai()
 		                        });
 		                    }
 		                } else {
-		                    JOptionPane.showMessageDialog(null, "Không tìm thấy sản phẩm nào với tên \"" + tenSP + "\"", "Kết quả tìm kiếm", JOptionPane.INFORMATION_MESSAGE);
+		                    JOptionPane.showMessageDialog(null, "Không tìm thấy đơn hàng nào với tên \"" + tenDonHang + "\"", "Kết quả tìm kiếm", JOptionPane.INFORMATION_MESSAGE);
 		                }
 		            } catch (RemoteException ex) {
-		                JOptionPane.showMessageDialog(null, "Lỗi khi tìm kiếm sản phẩm!", "Thông báo", JOptionPane.ERROR_MESSAGE);
+		                JOptionPane.showMessageDialog(null, "Lỗi khi tìm kiếm đơn hàng!", "Thông báo", JOptionPane.ERROR_MESSAGE);
 		                ex.printStackTrace();
 		            }
 		        } else {
-		            JOptionPane.showMessageDialog(null, "Vui lòng nhập tên sản phẩm cần tìm kiếm!", "Thông báo", JOptionPane.WARNING_MESSAGE);
+		            JOptionPane.showMessageDialog(null, "Vui lòng nhập tên đơn hàng cần tìm kiếm!", "Thông báo", JOptionPane.WARNING_MESSAGE);
 		        }
 			}
 		});
 		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnNewButton.setBounds(626, 23, 100, 30);
+		btnNewButton.setBounds(577, 23, 100, 30);
 		contentPane.add(btnNewButton);
 	}
-	// Hàm hiển thị danh sách sản phẩm
+	// Hàm hiển thị danh sách đơn hàng
     private void refreshTable() {
         try {
             DefaultTableModel model = (DefaultTableModel) table.getModel();
             model.setRowCount(0); // Reset table
 
-            List<SanPham> sanPhamList = qlspService.xemSanPham();
-            for (SanPham sp : sanPhamList) {
+            List<DonHang> donHangList = qlspService.xemDonHang();
+            for (DonHang dh : donHangList) {
                 model.addRow(new Object[]{
-                        sp.getMaSanPham(),
-                        sp.getTenSanPham(),
-                        sp.getGia(),
-                        sp.getMoTa(),
-                        sp.getSoLuong()
+                        dh.getMaDonHang(),
+                        dh.getTenDonHang(),
+                        dh.getMaKhachHang(),
+                        dh.getMaNhanVien(),
+                        dh.getNgayDatHang(),
+                        dh.getTrangThai()
                 });
             }
         } catch (RemoteException ex) {
