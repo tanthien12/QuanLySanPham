@@ -3,6 +3,7 @@ package server;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -176,7 +177,7 @@ public class ImplQLSP extends UnicastRemoteObject implements InterfaceQLSP {
 	            String tenNV = resultSet.getString("TenNhanVien");
 	            String chucVu = resultSet.getString("ChucVu");
 	            double luong = resultSet.getDouble("Luong");
-	            LocalDate ngayBatDau = resultSet.getObject("NgayBatDau", LocalDate.class);
+	            Date ngayBatDau = resultSet.getDate("NgayBatDau");
 	            NhanVien nv = new NhanVien(maNhanVien, tenNV, chucVu, luong, ngayBatDau);
 	            nhanVienList.add(nv);
 	        }
@@ -197,7 +198,7 @@ public class ImplQLSP extends UnicastRemoteObject implements InterfaceQLSP {
 	            String tenNV = resultSet.getString("TenNhanVien");
 	            String chucVu = resultSet.getString("ChucVu");
 	            double luong = resultSet.getDouble("Luong");
-	            LocalDate ngayBatDau = (LocalDate) resultSet.getObject("NgayBatDau");
+	            Date ngayBatDau = resultSet.getDate("NgayBatDau");
 	            NhanVien nv = new NhanVien(maNhanVien, tenNV, chucVu, luong, ngayBatDau);
 	            nhanVienList.add(nv);
 	        }
@@ -378,7 +379,7 @@ public class ImplQLSP extends UnicastRemoteObject implements InterfaceQLSP {
 	@Override
 	public List<ChiTietHoaDon> xemSachDonHang() throws RemoteException {
 		List<ChiTietHoaDon> chiTietList = new ArrayList<>();
-	    String sql = "SELECT * FROM chitiet_hoadon";
+	    String sql = "SELECT * FROM chitietdonhang";
 	    try (PreparedStatement statement = connection.prepareStatement(sql)) {
 	        ResultSet resultSet = statement.executeQuery();
 	        while (resultSet.next()) {
@@ -409,6 +410,50 @@ public class ImplQLSP extends UnicastRemoteObject implements InterfaceQLSP {
 	        e.printStackTrace();
 	        return false;
 	    }
+	}
+
+	@Override
+	public List<ChiTietHoaDon> timKiemTheoMaDonHang(int maDonHang) throws RemoteException {
+		List<ChiTietHoaDon> chiTietHoaDonList = new ArrayList<>();
+        String sql = "SELECT * FROM chitietdonhang WHERE MaDonHang = ?";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, maDonHang);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                int id = resultSet.getInt("ID");
+                int maDonHangResult = resultSet.getInt("MaDonHang");
+                int maSanPham = resultSet.getInt("MaSanPham");
+                int soLuong = resultSet.getInt("SoLuong");
+                double donGia = resultSet.getDouble("DonGia");
+                ChiTietHoaDon chiTietHoaDon = new ChiTietHoaDon(id, maDonHangResult, maSanPham, soLuong, donGia);
+                chiTietHoaDonList.add(chiTietHoaDon);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return chiTietHoaDonList;
+    }
+
+	@Override
+	public List<ChiTietHoaDon> timKiemTheoMaSanPham(int maSanPham) throws RemoteException {
+		 List<ChiTietHoaDon> chiTietHoaDonList = new ArrayList<>();
+		    String sql = "SELECT * FROM chitietdonhang WHERE MaSanPham = ?";
+		    try (PreparedStatement statement = connection.prepareStatement(sql)) {
+		        statement.setInt(1, maSanPham);
+		        ResultSet resultSet = statement.executeQuery();
+		        while (resultSet.next()) {
+		            int id = resultSet.getInt("ID");
+		            int maDonHang = resultSet.getInt("MaDonHang");
+		            int maSanPhamResult = resultSet.getInt("MaSanPham");
+		            int soLuong = resultSet.getInt("SoLuong");
+		            double donGia = resultSet.getDouble("DonGia");
+		            ChiTietHoaDon chiTietHoaDon = new ChiTietHoaDon(id, maDonHang, maSanPhamResult, soLuong, donGia);
+		            chiTietHoaDonList.add(chiTietHoaDon);
+		        }
+		    } catch (SQLException e) {
+		        e.printStackTrace();
+		    }
+		    return chiTietHoaDonList;
 	}
 	
 

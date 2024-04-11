@@ -5,9 +5,9 @@ import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.List;
-import server.InterfaceQLSP;
-import server.SanPham;
 
+import server.ChiTietHoaDon;
+import server.InterfaceQLSP;
 
 public class Client {
 	private static InterfaceQLSP qlspService;
@@ -17,9 +17,9 @@ public class Client {
 	
 			// Hiển thị danh sách Sản Phẩm 
             System.out.println("\nList");
-            List<SanPham> sanPhamList = qlspService.xemSanPham();
-            for (SanPham sp : sanPhamList) {
-                System.out.println(sp);
+            List<ChiTietHoaDon> nvList = qlspService.xemSachDonHang();
+            for (ChiTietHoaDon nv : nvList) {
+                System.out.println(nv);
             }
             DangNhap loginFrame = new DangNhap();
             loginFrame.setVisible(true);

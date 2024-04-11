@@ -35,6 +35,8 @@ public interface InterfaceQLSP extends Remote {
 	
 	//Chi tiet don hang
 	List<ChiTietHoaDon> xemSachDonHang() throws RemoteException;
+	List<ChiTietHoaDon> timKiemTheoMaDonHang(int maDonHang) throws RemoteException;
+	List<ChiTietHoaDon> timKiemTheoMaSanPham(int maSanPham) throws RemoteException;
 	
 	// Tai khoan
 	boolean taoTaiKhoan(TaiKhoan taiKhoan) throws RemoteException;

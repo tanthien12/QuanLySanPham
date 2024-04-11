@@ -55,6 +55,9 @@ public class Menu extends JFrame {
 		JButton btnNhanVien = new JButton("NHÂN VIÊN");
 		btnNhanVien.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				// Tạo và hiển thị giao diện FormNhanVien
+				FormNhanVien formNhanVien = new FormNhanVien();
+				formNhanVien.setVisible(true);
 			}
 		});
 		btnNhanVien.setFont(new Font("Tahoma", Font.BOLD, 18));
@@ -80,6 +83,13 @@ public class Menu extends JFrame {
 		contentPane.add(btnDonHang);
 		
 		JButton btnChiTietDH = new JButton("CHI TIẾT ĐƠN HÀNG");
+		btnChiTietDH.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// Tạo và hiển thị giao diện FormCTDH
+				FormCTDH formCTDH = new FormCTDH();
+				formCTDH.setVisible(true);
+			}
+		});
 		btnChiTietDH.setFont(new Font("Tahoma", Font.BOLD, 18));
 		btnChiTietDH.setBounds(135, 250, 250, 30);
 		contentPane.add(btnChiTietDH);
