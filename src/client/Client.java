@@ -8,15 +8,12 @@ import java.util.List;
 import server.InterfaceQLSP;
 import server.SanPham;
 
+
 public class Client {
-	public enum OperationMode {
-	    ADD,
-	    DELETE,
-	    EDIT
-	}
+	private static InterfaceQLSP qlspService;
 	public static void main(String[] args) {
 		try {
-			InterfaceQLSP qlspService = (InterfaceQLSP) Naming.lookup("rmi://localhost/QLSPService");
+			qlspService = (InterfaceQLSP) Naming.lookup("rmi://localhost/QLSPService");
 	
 			// Hiển thị danh sách Sản Phẩm 
             System.out.println("\nList");

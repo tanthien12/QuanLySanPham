@@ -4,7 +4,15 @@ import java.awt.*;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+
+import server.InterfaceQLSP;
+import server.SanPham;
+
 import java.awt.event.ActionListener;
+import java.net.MalformedURLException;
+import java.rmi.Naming;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
 import java.awt.event.ActionEvent;
 
 public class FrameNhapSanPham extends JFrame {
@@ -16,8 +24,8 @@ public class FrameNhapSanPham extends JFrame {
 	private JTextField textField_2;
 	private JTextField textField_3;
 	private JTextField textField_4;
-	private String chucNang;
-
+	
+	private InterfaceQLSP qlspService;
 	/**
 	 * Launch the application.
 	 */
@@ -38,7 +46,14 @@ public class FrameNhapSanPham extends JFrame {
 	 * Create the frame.
 	 */
 	public FrameNhapSanPham(String title, String chucNang) {
-		this.chucNang = chucNang;
+		
+		try {
+			qlspService = (InterfaceQLSP) Naming.lookup("rmi://localhost/QLSPService");
+		} catch (MalformedURLException | RemoteException | NotBoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		setTitle(title);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 600, 430);
@@ -108,11 +123,11 @@ public class FrameNhapSanPham extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				// Thực hiện lưu sản phẩm vào database tùy theo chức năng đã chọn
                 if (chucNang.equals("Thêm Sản Phẩm")) {
-                    themSanPhamVaoDatabase();
+                    themSanPham();
                 } else if (chucNang.equals("Sửa Sản Phẩm")) {
-                    suaSanPhamTrongDatabase();
+                    suaSanPham();
                 } else if (chucNang.equals("Xóa Sản Phẩm")) {
-                    xoaSanPhamKhoiDatabase();
+                    xoaSanPham();
                 }
                 // Sau khi lưu, đóng cửa sổ FrameNhapSanPham
                 dispose();
@@ -138,17 +153,69 @@ public class FrameNhapSanPham extends JFrame {
 		contentPane.add(btnCanel);
 	}
 	 // Hàm thêm sản phẩm vào database
-    private void themSanPhamVaoDatabase() {
-        // Thêm logic xử lý tương ứng với việc thêm sản phẩm vào database
+    private void themSanPham() {
+    	try {
+    	    int maSanPham = Integer.parseInt(textField.getText());
+    	    String tenSanPham = textField_1.getText();
+    	    double gia = Double.parseDouble(textField_2.getText());
+    	    String moTa = textField_3.getText();
+    	    int soLuong = Integer.parseInt(textField_4.getText());
+
+    	    SanPham sp = new SanPham(maSanPham, tenSanPham, gia, moTa, soLuong);
+    	    qlspService.themSanPham(sp);
+    	    JOptionPane.showMessageDialog(null, "Thêm sản phẩm thành công!");
+    	} catch (NumberFormatException | RemoteException ex) {
+    	    JOptionPane.showMessageDialog(null, "Thêm sản phẩm thất bại!");
+    	    ex.printStackTrace();
+    	}
+
     }
 
     // Hàm sửa thông tin sản phẩm trong database
-    private void suaSanPhamTrongDatabase() {
-        // Thêm logic xử lý tương ứng với việc sửa sản phẩm trong database
+    private void suaSanPham() {
+    	try {
+            int maSanPham = Integer.parseInt(textField.getText());
+            String tenSanPham = textField_1.getText();
+            double gia = Double.parseDouble(textField_2.getText());
+            String moTa = textField_3.getText();
+            int soLuong = Integer.parseInt(textField_4.getText());
+
+            // Tạo một đối tượng SanPham mới với thông tin đã nhập
+            SanPham sp = new SanPham(maSanPham, tenSanPham, gia, moTa, soLuong);
+
+            // Gọi phương thức sửa sản phẩm từ qlspService
+            boolean result = qlspService.capNhatSanPham(sp);
+
+            // Kiểm tra kết quả và hiển thị thông báo tương ứng
+            if (result) {
+                JOptionPane.showMessageDialog(null, "Sửa sản phẩm thành công!");
+            } else {
+                JOptionPane.showMessageDialog(null, "Sửa sản phẩm thất bại!");
+            }
+        } catch (NumberFormatException | RemoteException ex) {
+            JOptionPane.showMessageDialog(null, "Sửa sản phẩm thất bại!");
+            ex.printStackTrace();
+        }
     }
 
     // Hàm xóa sản phẩm khỏi database
-    private void xoaSanPhamKhoiDatabase() {
-        // Thêm logic xử lý tương ứng với việc xóa sản phẩm khỏi database
+    private void xoaSanPham() {
+    	try {
+            int maSanPham = Integer.parseInt(textField.getText());
+
+            // Gọi phương thức xóa sản phẩm từ qlspService
+            boolean result = qlspService.xoaSanPham(maSanPham);
+
+            // Kiểm tra kết quả và hiển thị thông báo tương ứng
+            if (result) {
+                JOptionPane.showMessageDialog(null, "Xóa sản phẩm thành công!");
+            } else {
+                JOptionPane.showMessageDialog(null, "Xóa sản phẩm thất bại!");
+            }
+        } catch (NumberFormatException | RemoteException ex) {
+            JOptionPane.showMessageDialog(null, "Xóa sản phẩm thất bại!");
+            ex.printStackTrace();
+        }
     }
+    
 }

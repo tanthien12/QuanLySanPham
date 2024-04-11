@@ -7,7 +7,16 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
+
+import server.InterfaceQLSP;
+import server.SanPham;
+
 import java.awt.event.ActionListener;
+import java.net.MalformedURLException;
+import java.rmi.Naming;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.util.List;
 import java.awt.event.ActionEvent;
 
 public class FormSanPham extends JFrame {
@@ -21,6 +30,8 @@ public class FormSanPham extends JFrame {
 	private JButton btnSa;
 	private JButton btnHinThDs;
 	private JTextField textField;
+	
+	private static InterfaceQLSP qlspService;
 
 	/**
 	 * Launch the application.
@@ -42,6 +53,14 @@ public class FormSanPham extends JFrame {
 	 * Create the frame.
 	 */
 	public FormSanPham() {
+		
+		try {
+			qlspService = (InterfaceQLSP) Naming.lookup("rmi://localhost/QLSPService");
+		} catch (MalformedURLException | RemoteException | NotBoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		setTitle("Quản lý sản phẩm");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 824, 537);
@@ -110,7 +129,8 @@ public class FormSanPham extends JFrame {
 		btnHinThDs = new JButton("Hiển Thị DS\r\n");
 		btnHinThDs.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				refreshTable();
+
 			}
 		});
 		btnHinThDs.setFont(new Font("Tahoma", Font.BOLD, 16));
@@ -129,8 +149,65 @@ public class FormSanPham extends JFrame {
 		textField.setColumns(10);
 		
 		JButton btnNewButton = new JButton("Tìm kiếm");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				 // Lấy tên sản phẩm cần tìm kiếm từ textField
+		        String tenSP = textField.getText();
+		        
+		        // Kiểm tra xem người dùng đã nhập tên sản phẩm hay chưa
+		        if (!tenSP.isEmpty()) {
+		            try {
+		                // Gọi phương thức tìm kiếm sản phẩm từ qlspService
+		                List<SanPham> ketQuaTimKiem = qlspService.timKiemSanPham(tenSP);
+
+		                // Hiển thị kết quả tìm kiếm
+		                if (!ketQuaTimKiem.isEmpty()) {
+		                    DefaultTableModel model = (DefaultTableModel) table.getModel();
+		                    model.setRowCount(0); // Xóa bảng hiện tại để hiển thị kết quả mới
+
+		                    for (SanPham sp : ketQuaTimKiem) {
+		                        model.addRow(new Object[]{
+		                            sp.getMaSanPham(),
+		                            sp.getTenSanPham(),
+		                            sp.getGia(),
+		                            sp.getMoTa(),
+		                            sp.getSoLuong()
+		                        });
+		                    }
+		                } else {
+		                    JOptionPane.showMessageDialog(null, "Không tìm thấy sản phẩm nào với tên \"" + tenSP + "\"", "Kết quả tìm kiếm", JOptionPane.INFORMATION_MESSAGE);
+		                }
+		            } catch (RemoteException ex) {
+		                JOptionPane.showMessageDialog(null, "Lỗi khi tìm kiếm sản phẩm!", "Thông báo", JOptionPane.ERROR_MESSAGE);
+		                ex.printStackTrace();
+		            }
+		        } else {
+		            JOptionPane.showMessageDialog(null, "Vui lòng nhập tên sản phẩm cần tìm kiếm!", "Thông báo", JOptionPane.WARNING_MESSAGE);
+		        }
+			}
+		});
 		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnNewButton.setBounds(626, 23, 100, 30);
 		contentPane.add(btnNewButton);
 	}
+	// Hàm hiển thị danh sách sản phẩm
+    private void refreshTable() {
+        try {
+            DefaultTableModel model = (DefaultTableModel) table.getModel();
+            model.setRowCount(0); // Reset table
+
+            List<SanPham> sanPhamList = qlspService.xemSanPham();
+            for (SanPham sp : sanPhamList) {
+                model.addRow(new Object[]{
+                        sp.getMaSanPham(),
+                        sp.getTenSanPham(),
+                        sp.getGia(),
+                        sp.getMoTa(),
+                        sp.getSoLuong()
+                });
+            }
+        } catch (RemoteException ex) {
+            ex.printStackTrace();
+        }
+    }
 }

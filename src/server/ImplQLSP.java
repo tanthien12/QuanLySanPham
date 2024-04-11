@@ -27,12 +27,13 @@ public class ImplQLSP extends UnicastRemoteObject implements InterfaceQLSP {
 
 	@Override
 	public boolean themSanPham(SanPham sanPham) throws RemoteException {
-		String sql = "INSERT INTO sanpham (TenSanPham, Gia, MoTa, SoLuongTon) VALUES (?, ?, ?, ?)";
+		String sql = "INSERT INTO sanpham (MaSanPham, TenSanPham, Gia, MoTa, SoLuongTon) VALUES (?, ?, ?, ?, ?)";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1, sanPham.getTenSanPham());
-            statement.setDouble(2, sanPham.getGia());
-            statement.setString(3, sanPham.getMoTa());
-            statement.setInt(4, sanPham.getSoLuong());
+        	statement.setInt(1, sanPham.getMaSanPham());
+            statement.setString(2, sanPham.getTenSanPham());
+            statement.setDouble(3, sanPham.getGia());
+            statement.setString(4, sanPham.getMoTa());
+            statement.setInt(5, sanPham.getSoLuong());
             int rowsInserted = statement.executeUpdate();
             return rowsInserted > 0;
         } catch (SQLException e) {
@@ -72,12 +73,13 @@ public class ImplQLSP extends UnicastRemoteObject implements InterfaceQLSP {
 	}
 
 	@Override
-	public boolean timKiemSanPham(String tenSanPham) throws RemoteException {
-		String sql = "SELECT * FROM sanpham WHERE TenSanPham LIKE ?";
+	public List<SanPham> timKiemSanPham(String tenSanPham) throws RemoteException {
+		List<SanPham> sanPhamList = new ArrayList<>();
+	    String sql = "SELECT * FROM sanpham WHERE TenSanPham LIKE ?";
 	    try (PreparedStatement statement = connection.prepareStatement(sql)) {
 	        statement.setString(1, "%" + tenSanPham + "%");
 	        ResultSet resultSet = statement.executeQuery();
-	        List<SanPham> sanPhamList = new ArrayList<>();
+	        
 	        while (resultSet.next()) {
 	            int maSanPham = resultSet.getInt("MaSanPham");
 	            String tenSP = resultSet.getString("TenSanPham");
@@ -87,15 +89,10 @@ public class ImplQLSP extends UnicastRemoteObject implements InterfaceQLSP {
 	            SanPham sp = new SanPham(maSanPham, tenSP, gia, moTa, soLuong);
 	            sanPhamList.add(sp);
 	        }
-	        // In kết quả tìm kiếm
-	        for (SanPham sp : sanPhamList) {
-	            System.out.println(sp);
-	        }
-	        return !sanPhamList.isEmpty();
 	    } catch (SQLException e) {
 	        e.printStackTrace();
-	        return false;
 	    }
+	    return sanPhamList;
 	}
 
 	@Override
@@ -121,12 +118,13 @@ public class ImplQLSP extends UnicastRemoteObject implements InterfaceQLSP {
 
 	@Override
 	public boolean themNhanVien(NhanVien nhanVien) throws RemoteException {
-	    String sql = "INSERT INTO nhanvien (TenNhanVien, ChucVu, Luong, NgayBatDau) VALUES (?, ?, ?, ?)";
+	    String sql = "INSERT INTO nhanvien (MaNhanVien,TenNhanVien, ChucVu, Luong, NgayBatDau) VALUES (?, ?, ?, ?, ?)";
 	    try (PreparedStatement statement = connection.prepareStatement(sql)) {
-	        statement.setString(1, nhanVien.getTenNhanVien());
-	        statement.setString(2, nhanVien.getChucVu());
-	        statement.setDouble(3, nhanVien.getLuong());
-	        statement.setObject(4, nhanVien.getNgayBatDau());
+	    	statement.setInt(1, nhanVien.getMaNhanVien());
+	        statement.setString(2, nhanVien.getTenNhanVien());
+	        statement.setString(3, nhanVien.getChucVu());
+	        statement.setDouble(4, nhanVien.getLuong());
+	        statement.setObject(5, nhanVien.getNgayBatDau());
 	        int rowsAffected = statement.executeUpdate();
 	        return rowsAffected > 0;
 	    } catch (SQLException e) {
@@ -166,30 +164,26 @@ public class ImplQLSP extends UnicastRemoteObject implements InterfaceQLSP {
 	}
 
 	@Override
-	public boolean timKiemNhanVien(String tenNhanVien) throws RemoteException {
-		String sql = "SELECT * FROM nhanvien WHERE TenNhanVien LIKE ?";
+	public List<NhanVien> timKiemNhanVien(String tenNhanVien) throws RemoteException {
+		List<NhanVien> nhanVienList = new ArrayList<>();
+	    String sql = "SELECT * FROM nhanvien WHERE TenNhanVien LIKE ?";
 	    try (PreparedStatement statement = connection.prepareStatement(sql)) {
 	        statement.setString(1, "%" + tenNhanVien + "%");
 	        ResultSet resultSet = statement.executeQuery();
-	        List<NhanVien> nhanVienList = new ArrayList<>();
+
 	        while (resultSet.next()) {
 	            int maNhanVien = resultSet.getInt("MaNhanVien");
 	            String tenNV = resultSet.getString("TenNhanVien");
 	            String chucVu = resultSet.getString("ChucVu");
 	            double luong = resultSet.getDouble("Luong");
-	            LocalDate ngayBatDau = (LocalDate) resultSet.getObject("NgayBatDau");
+	            LocalDate ngayBatDau = resultSet.getObject("NgayBatDau", LocalDate.class);
 	            NhanVien nv = new NhanVien(maNhanVien, tenNV, chucVu, luong, ngayBatDau);
 	            nhanVienList.add(nv);
 	        }
-	        // In kết quả tìm kiếm
-	        for (NhanVien nv : nhanVienList) {
-	            System.out.println(nv);
-	        }
-	        return !nhanVienList.isEmpty();
 	    } catch (SQLException e) {
 	        e.printStackTrace();
-	        return false;
 	    }
+	    return nhanVienList;
 	}
 
 	@Override
@@ -218,10 +212,11 @@ public class ImplQLSP extends UnicastRemoteObject implements InterfaceQLSP {
 	public boolean themKhachHang(KhachHang khachHang) throws RemoteException {
 		String sql = "INSERT INTO khachhang (TenKhachHang, DiaChi, SoDienThoai, Email) VALUES (?, ?, ?, ?)";
 	    try (PreparedStatement statement = connection.prepareStatement(sql)) {
-	        statement.setString(1, khachHang.getTenKhachHang());
-	        statement.setString(2, khachHang.getDiaChi());
-	        statement.setString(3, khachHang.getSoDienThoai());
-	        statement.setString(4, khachHang.getEmail());
+	    	statement.setInt(1, khachHang.getMaKhachHang());
+	        statement.setString(2, khachHang.getTenKhachHang());
+	        statement.setString(3, khachHang.getDiaChi());
+	        statement.setString(4, khachHang.getSoDienThoai());
+	        statement.setString(5, khachHang.getEmail());
 	        int rowsInserted = statement.executeUpdate();
 	        return rowsInserted > 0;
 	    } catch (SQLException e) {
@@ -248,12 +243,12 @@ public class ImplQLSP extends UnicastRemoteObject implements InterfaceQLSP {
 	}
 
 	@Override
-	public boolean timKiemKhachHang(String tenKhachHang) throws RemoteException {
+	public List<KhachHang> timKiemKhachHang(String tenKhachHang) throws RemoteException {
 		String sql = "SELECT * FROM khachhang WHERE TenKhachHang LIKE ?";
+	    List<KhachHang> khachHangList = new ArrayList<>();
 	    try (PreparedStatement statement = connection.prepareStatement(sql)) {
 	        statement.setString(1, "%" + tenKhachHang + "%");
 	        ResultSet resultSet = statement.executeQuery();
-	        List<KhachHang> khachHangList = new ArrayList<>();
 	        while (resultSet.next()) {
 	            int maKhachHang = resultSet.getInt("MaKhachHang");
 	            String tenKH = resultSet.getString("TenKhachHang");
@@ -263,15 +258,10 @@ public class ImplQLSP extends UnicastRemoteObject implements InterfaceQLSP {
 	            KhachHang kh = new KhachHang(maKhachHang, tenKH, diaChi, soDienThoai, email);
 	            khachHangList.add(kh);
 	        }
-	        // In kết quả tìm kiếm
-	        for (KhachHang kh : khachHangList) {
-	            System.out.println(kh);
-	        }
-	        return !khachHangList.isEmpty();
 	    } catch (SQLException e) {
 	        e.printStackTrace();
-	        return false;
 	    }
+	    return khachHangList;
 	}
 
 	@Override
@@ -299,10 +289,11 @@ public class ImplQLSP extends UnicastRemoteObject implements InterfaceQLSP {
 	public boolean themDonHang(DonHang donHang) throws RemoteException {
 		String sql = "INSERT INTO donhang (MaKhachHang, MaNhanVien, NgayDatHang, TrangThai) VALUES (?, ?, ?, ?)";
 	    try (PreparedStatement statement = connection.prepareStatement(sql)) {
-	        statement.setInt(1, donHang.getMaKhachHang());
-	        statement.setInt(2, donHang.getMaNhanVien());
-	        statement.setObject(3, donHang.getNgayDatHang());
-	        statement.setString(4, donHang.getTrangThai());
+	    	statement.setInt(1, donHang.getMaDonHang());
+	        statement.setInt(2, donHang.getMaKhachHang());
+	        statement.setInt(3, donHang.getMaNhanVien());
+	        statement.setObject(4, donHang.getNgayDatHang());
+	        statement.setString(5, donHang.getTrangThai());
 	        int rowsInserted = statement.executeUpdate();
 	        return rowsInserted > 0;
 	    } catch (SQLException e) {
@@ -342,30 +333,25 @@ public class ImplQLSP extends UnicastRemoteObject implements InterfaceQLSP {
 	}
 
 	@Override
-	public boolean timKiemDonHang(String tenDonHang) throws RemoteException {
+	public List<DonHang> timKiemDonHang(String tenDonHang) throws RemoteException {
 		String sql = "SELECT * FROM donhang WHERE TrangThai LIKE ?";
+	    List<DonHang> donHangList = new ArrayList<>();
 	    try (PreparedStatement statement = connection.prepareStatement(sql)) {
 	        statement.setString(1, "%" + tenDonHang + "%");
 	        ResultSet resultSet = statement.executeQuery();
-	        List<DonHang> donHangList = new ArrayList<>();
 	        while (resultSet.next()) {
 	            int maDonHang = resultSet.getInt("MaDonHang");
 	            int maKhachHang = resultSet.getInt("MaKhachHang");
 	            int maNhanVien = resultSet.getInt("MaNhanVien");
-	            LocalDate ngayDatHang = (LocalDate) resultSet.getObject("NgayDatHang");
+	            LocalDate ngayDatHang = resultSet.getDate("NgayDatHang").toLocalDate();
 	            String trangThai = resultSet.getString("TrangThai");
 	            DonHang dh = new DonHang(maDonHang, maKhachHang, maNhanVien, ngayDatHang, trangThai);
 	            donHangList.add(dh);
 	        }
-	        // In kết quả tìm kiếm
-	        for (DonHang dh : donHangList) {
-	            System.out.println(dh);
-	        }
-	        return !donHangList.isEmpty();
 	    } catch (SQLException e) {
 	        e.printStackTrace();
-	        return false;
 	    }
+	    return donHangList;
 	}
 
 	@Override
