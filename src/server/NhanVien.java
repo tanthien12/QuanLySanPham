@@ -1,6 +1,7 @@
 package server;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 
 public class NhanVien implements Serializable {
 
@@ -13,9 +14,9 @@ public class NhanVien implements Serializable {
 	private String tenNhanVien;
 	private String chucVu;
 	private double luong;
-	private String ngayBatDau;
+	private LocalDate ngayBatDau;
 	
-	public NhanVien(int maNhanVien, String tenNhanVien, String chucVu, double luong, String ngayBatDau) {
+	public NhanVien(int maNhanVien, String tenNhanVien, String chucVu, double luong, LocalDate ngayBatDau) {
 		super();
 		this.maNhanVien = maNhanVien;
 		this.tenNhanVien = tenNhanVien;
@@ -56,11 +57,11 @@ public class NhanVien implements Serializable {
 		this.luong = luong;
 	}
 
-	public String getNgayBatDau() {
+	public LocalDate getNgayBatDau() {
 		return ngayBatDau;
 	}
 
-	public void setNgayBatDau(String ngayBatDau) {
+	public void setNgayBatDau(LocalDate ngayBatDau) {
 		this.ngayBatDau = ngayBatDau;
 	}
 

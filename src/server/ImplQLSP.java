@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -125,7 +126,7 @@ public class ImplQLSP extends UnicastRemoteObject implements InterfaceQLSP {
 	        statement.setString(1, nhanVien.getTenNhanVien());
 	        statement.setString(2, nhanVien.getChucVu());
 	        statement.setDouble(3, nhanVien.getLuong());
-	        statement.setString(4, nhanVien.getNgayBatDau());
+	        statement.setObject(4, nhanVien.getNgayBatDau());
 	        int rowsAffected = statement.executeUpdate();
 	        return rowsAffected > 0;
 	    } catch (SQLException e) {
@@ -154,7 +155,7 @@ public class ImplQLSP extends UnicastRemoteObject implements InterfaceQLSP {
 	        statement.setString(1, nhanVien.getTenNhanVien());
 	        statement.setString(2, nhanVien.getChucVu());
 	        statement.setDouble(3, nhanVien.getLuong());
-	        statement.setString(4, nhanVien.getNgayBatDau());
+	        statement.setObject(4, nhanVien.getNgayBatDau());
 	        statement.setInt(5, nhanVien.getMaNhanVien());
 	        int rowsAffected = statement.executeUpdate();
 	        return rowsAffected > 0;
@@ -176,7 +177,7 @@ public class ImplQLSP extends UnicastRemoteObject implements InterfaceQLSP {
 	            String tenNV = resultSet.getString("TenNhanVien");
 	            String chucVu = resultSet.getString("ChucVu");
 	            double luong = resultSet.getDouble("Luong");
-	            String ngayBatDau = resultSet.getString("NgayBatDau");
+	            LocalDate ngayBatDau = (LocalDate) resultSet.getObject("NgayBatDau");
 	            NhanVien nv = new NhanVien(maNhanVien, tenNV, chucVu, luong, ngayBatDau);
 	            nhanVienList.add(nv);
 	        }
@@ -202,7 +203,7 @@ public class ImplQLSP extends UnicastRemoteObject implements InterfaceQLSP {
 	            String tenNV = resultSet.getString("TenNhanVien");
 	            String chucVu = resultSet.getString("ChucVu");
 	            double luong = resultSet.getDouble("Luong");
-	            String ngayBatDau = resultSet.getString("NgayBatDau");
+	            LocalDate ngayBatDau = (LocalDate) resultSet.getObject("NgayBatDau");
 	            NhanVien nv = new NhanVien(maNhanVien, tenNV, chucVu, luong, ngayBatDau);
 	            nhanVienList.add(nv);
 	        }
@@ -300,7 +301,7 @@ public class ImplQLSP extends UnicastRemoteObject implements InterfaceQLSP {
 	    try (PreparedStatement statement = connection.prepareStatement(sql)) {
 	        statement.setInt(1, donHang.getMaKhachHang());
 	        statement.setInt(2, donHang.getMaNhanVien());
-	        statement.setString(3, donHang.getNgayDatHang());
+	        statement.setObject(3, donHang.getNgayDatHang());
 	        statement.setString(4, donHang.getTrangThai());
 	        int rowsInserted = statement.executeUpdate();
 	        return rowsInserted > 0;
@@ -329,7 +330,7 @@ public class ImplQLSP extends UnicastRemoteObject implements InterfaceQLSP {
 	    try (PreparedStatement statement = connection.prepareStatement(sql)) {
 	        statement.setInt(1, donHang.getMaKhachHang());
 	        statement.setInt(2, donHang.getMaNhanVien());
-	        statement.setString(3, donHang.getNgayDatHang());
+	        statement.setObject(3, donHang.getNgayDatHang());
 	        statement.setString(4, donHang.getTrangThai());
 	        statement.setInt(5, donHang.getMaDonHang());
 	        int rowsUpdated = statement.executeUpdate();
@@ -351,7 +352,7 @@ public class ImplQLSP extends UnicastRemoteObject implements InterfaceQLSP {
 	            int maDonHang = resultSet.getInt("MaDonHang");
 	            int maKhachHang = resultSet.getInt("MaKhachHang");
 	            int maNhanVien = resultSet.getInt("MaNhanVien");
-	            String ngayDatHang = resultSet.getString("NgayDatHang");
+	            LocalDate ngayDatHang = (LocalDate) resultSet.getObject("NgayDatHang");
 	            String trangThai = resultSet.getString("TrangThai");
 	            DonHang dh = new DonHang(maDonHang, maKhachHang, maNhanVien, ngayDatHang, trangThai);
 	            donHangList.add(dh);
@@ -377,7 +378,7 @@ public class ImplQLSP extends UnicastRemoteObject implements InterfaceQLSP {
 	            int maDonHang = resultSet.getInt("MaDonHang");
 	            int maKhachHang = resultSet.getInt("MaKhachHang");
 	            int maNhanVien = resultSet.getInt("MaNhanVien");
-	            String ngayDatHang = resultSet.getString("NgayDatHang");
+	            LocalDate ngayDatHang = (LocalDate) resultSet.getObject("NgayDatHang");
 	            String trangThai = resultSet.getString("TrangThai");
 	            DonHang dh = new DonHang(maDonHang, maKhachHang, maNhanVien, ngayDatHang, trangThai);
 	            donHangList.add(dh);
