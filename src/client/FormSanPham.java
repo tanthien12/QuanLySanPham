@@ -30,6 +30,7 @@ public class FormSanPham extends JFrame {
 	private JTextField textField;
 	
 	private static InterfaceQLSP qlspService;
+	private JButton btnExit;
 
 	/**
 	 * Launch the application.
@@ -59,12 +60,14 @@ public class FormSanPham extends JFrame {
 			e.printStackTrace();
 		}
 		
-		setTitle("Quản lý sản phẩm");
+		setTitle("Quản lý Sản phẩm");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 824, 537);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(255, 255, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		
+		setLocationRelativeTo(null);
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -187,6 +190,16 @@ public class FormSanPham extends JFrame {
 		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnNewButton.setBounds(626, 23, 100, 30);
 		contentPane.add(btnNewButton);
+		
+		btnExit = new JButton("Thoát");
+		btnExit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+			}
+		});
+		btnExit.setFont(new Font("Tahoma", Font.BOLD, 16));
+		btnExit.setBounds(614, 425, 150, 30);
+		contentPane.add(btnExit);
 	}
 	// Hàm hiển thị danh sách sản phẩm
     private void refreshTable() {

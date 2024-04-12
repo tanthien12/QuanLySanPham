@@ -36,6 +36,8 @@ public class Menu extends JFrame {
 		setBounds(100, 100, 537, 441);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		
+		setLocationRelativeTo(null);
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -67,6 +69,9 @@ public class Menu extends JFrame {
 		JButton btnKhachHang = new JButton("KHÁCH HÀNG");
 		btnKhachHang.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				// Tạo và hiển thị giao diện FormKhachHang
+				FormKhachHang formKhachHang = new FormKhachHang();
+				formKhachHang.setVisible(true);
 			}
 		});
 		btnKhachHang.setFont(new Font("Tahoma", Font.BOLD, 18));

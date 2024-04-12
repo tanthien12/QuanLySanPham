@@ -59,12 +59,14 @@ public class FormDonHang extends JFrame {
 			e.printStackTrace();
 		}
 		
-		setTitle("Quản lý sản phẩm");
+		setTitle("Quản lý Đơn hàng");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 824, 537);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(255, 255, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		
+		setLocationRelativeTo(null);
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -98,7 +100,7 @@ public class FormDonHang extends JFrame {
 			}
 		});
 		btnADD.setFont(new Font("Tahoma", Font.BOLD, 16));
-		btnADD.setBounds(183, 386, 150, 30);
+		btnADD.setBounds(119, 386, 150, 30);
 		contentPane.add(btnADD);
 		
 		btnDEL = new JButton("Xóa");
@@ -109,7 +111,7 @@ public class FormDonHang extends JFrame {
 			}
 		});
 		btnDEL.setFont(new Font("Tahoma", Font.BOLD, 16));
-		btnDEL.setBounds(183, 441, 150, 30);
+		btnDEL.setBounds(119, 441, 150, 30);
 		contentPane.add(btnDEL);
 		
 		btnSa = new JButton("Sửa");
@@ -121,7 +123,7 @@ public class FormDonHang extends JFrame {
 			}
 		});
 		btnSa.setFont(new Font("Tahoma", Font.BOLD, 16));
-		btnSa.setBounds(460, 386, 150, 30);
+		btnSa.setBounds(386, 385, 150, 30);
 		contentPane.add(btnSa);
 		
 		btnHinThDs = new JButton("Hiển Thị DS\r\n");
@@ -132,7 +134,7 @@ public class FormDonHang extends JFrame {
 			}
 		});
 		btnHinThDs.setFont(new Font("Tahoma", Font.BOLD, 16));
-		btnHinThDs.setBounds(460, 442, 150, 30);
+		btnHinThDs.setBounds(386, 441, 150, 30);
 		contentPane.add(btnHinThDs);
 		
 		JLabel lblNewLabel = new JLabel("Tên đơn hàng:");
@@ -188,6 +190,16 @@ public class FormDonHang extends JFrame {
 		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnNewButton.setBounds(577, 23, 100, 30);
 		contentPane.add(btnNewButton);
+		
+		JButton btnExit = new JButton("Thoát");
+		btnExit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+			}
+		});
+		btnExit.setFont(new Font("Tahoma", Font.BOLD, 16));
+		btnExit.setBounds(599, 441, 150, 30);
+		contentPane.add(btnExit);
 	}
 	// Hàm hiển thị danh sách đơn hàng
     private void refreshTable() {

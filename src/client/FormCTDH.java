@@ -61,12 +61,13 @@ public class FormCTDH extends JFrame {
 			e.printStackTrace();
 		}
 		
-		setTitle("Quản lý sản phẩm");
+		setTitle("Chi tiết Đơn hàng");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 824, 537);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(255, 255, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setLocationRelativeTo(null);
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);

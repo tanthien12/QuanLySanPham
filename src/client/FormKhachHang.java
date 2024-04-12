@@ -9,7 +9,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
 import server.InterfaceQLSP;
-import server.NhanVien;
+import server.KhachHang;
 
 import java.awt.event.ActionListener;
 import java.net.MalformedURLException;
@@ -19,7 +19,7 @@ import java.rmi.RemoteException;
 import java.util.List;
 import java.awt.event.ActionEvent;
 
-public class FormNhanVien extends JFrame {
+public class FormKhachHang extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -32,7 +32,6 @@ public class FormNhanVien extends JFrame {
 	private JTextField textField;
 	
 	private static InterfaceQLSP qlspService;
-	private JButton btnExit;
 
 	/**
 	 * Launch the application.
@@ -41,7 +40,7 @@ public class FormNhanVien extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					FormNhanVien frame = new FormNhanVien();
+					FormKhachHang frame = new FormKhachHang();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -53,7 +52,7 @@ public class FormNhanVien extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public FormNhanVien() {
+	public FormKhachHang() {
 		
 		try {
 			qlspService = (InterfaceQLSP) Naming.lookup("rmi://localhost/QLSPService");
@@ -62,7 +61,7 @@ public class FormNhanVien extends JFrame {
 			e.printStackTrace();
 		}
 		
-		setTitle("Quản lý Nhân viên");
+		setTitle("Quản lý Khách hàng");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 824, 537);
 		contentPane = new JPanel();
@@ -75,7 +74,7 @@ public class FormNhanVien extends JFrame {
 		contentPane.setLayout(null);
 		
 		scrollPane = new JScrollPane();
-		scrollPane.setBounds(26, 85, 532, 405);
+		scrollPane.setBounds(26, 85, 532, 389);
 		contentPane.add(scrollPane);
 		
 		table = new JTable();
@@ -90,7 +89,7 @@ public class FormNhanVien extends JFrame {
 				{null, null, null, null, null},
 			},
 			new String[] {
-				"M\u00E3 Nh\u00E2n Vi\u00EAn", "T\u00EAn Nh\u00E2n Vi\u00EAn", "Ch\u1EE9c V\u1EE5", "L\u01B0\u01A1ng", "Ng\u00E0y b\u1EAFt \u0111\u1EA7u"
+				"M\u00E3 kh\u00E1ch h\u00E0ng", "T\u00EAn kh\u00E1ch h\u00E0ng", "\u0110\u1ECBa ch\u1EC9", "S\u1ED1 \u0111i\u1EC7n tho\u1EA1i", "Email"
 			}
 		));
 		
@@ -98,35 +97,35 @@ public class FormNhanVien extends JFrame {
 		btnADD.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// Tạo và hiển thị giao diện FrameNhapNhanVien cho chức năng thêm
-                FrameNhapNhanVien frameNhapNhanVien = new FrameNhapNhanVien("Thêm Nhân Viên", "Thêm Nhân Viên");
-                frameNhapNhanVien.setVisible(true);
+                FrameNhapKhachHang frameNhapKhachHang = new FrameNhapKhachHang("Thêm Khách Hàng", "Thêm Khách Hàng");
+                frameNhapKhachHang.setVisible(true);
+                
 			}
 		});
 		btnADD.setFont(new Font("Tahoma", Font.BOLD, 16));
-		btnADD.setBounds(614, 137, 150, 30);
+		btnADD.setBounds(614, 153, 150, 30);
 		contentPane.add(btnADD);
 		
-		btnDEL = new JButton("Xóa");
+		btnDEL = new JButton("Thoát");
 		btnDEL.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-                FrameNhapNhanVien frameNhapNhanVien = new FrameNhapNhanVien("Xóa Nhân Viên", "Xóa Nhân Viên");
-                frameNhapNhanVien.setVisible(true);
+				dispose();
 			}
 		});
 		btnDEL.setFont(new Font("Tahoma", Font.BOLD, 16));
-		btnDEL.setBounds(614, 192, 150, 30);
+		btnDEL.setBounds(614, 425, 150, 30);
 		contentPane.add(btnDEL);
 		
 		btnSa = new JButton("Sửa");
 		btnSa.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// Tạo và hiển thị giao diện FrameNhapNhanVien cho chức năng sửa
-                FrameNhapNhanVien frameNhapNhanVien = new FrameNhapNhanVien("Sửa Nhân Viên", "Sửa Nhân Viên");
-                frameNhapNhanVien.setVisible(true);
+                FrameNhapKhachHang frameNhapKhachHang = new FrameNhapKhachHang("Sửa Khách Hàng", "Sửa Khách Hàng");
+                frameNhapKhachHang.setVisible(true);
 			}
 		});
 		btnSa.setFont(new Font("Tahoma", Font.BOLD, 16));
-		btnSa.setBounds(614, 245, 150, 30);
+		btnSa.setBounds(614, 221, 150, 30);
 		contentPane.add(btnSa);
 		
 		btnHinThDs = new JButton("Hiển Thị DS\r\n");
@@ -137,12 +136,12 @@ public class FormNhanVien extends JFrame {
 			}
 		});
 		btnHinThDs.setFont(new Font("Tahoma", Font.BOLD, 16));
-		btnHinThDs.setBounds(614, 301, 150, 30);
+		btnHinThDs.setBounds(614, 290, 150, 30);
 		contentPane.add(btnHinThDs);
 		
-		JLabel lblNewLabel = new JLabel("Tên nhân viên:");
+		JLabel lblNewLabel = new JLabel("Tên khách hàng:");
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNewLabel.setBounds(210, 23, 121, 30);
+		lblNewLabel.setBounds(199, 23, 132, 30);
 		contentPane.add(lblNewLabel);
 		
 		textField = new JTextField();
@@ -154,70 +153,61 @@ public class FormNhanVien extends JFrame {
 		JButton btnNewButton = new JButton("Tìm kiếm");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-		        // Lấy tên nhân viên cần tìm kiếm từ textField
-		        String tenNV = textField.getText();
+				// Lấy tên khách hàng cần tìm kiếm từ textField
+			    String tenKhachHang = textField.getText();
 
-		        // Kiểm tra xem người dùng đã nhập tên nhân viên hay chưa
-		        if (!tenNV.isEmpty()) {
-		            try {
-		                // Gọi phương thức tìm kiếm nhân viên từ qlspService
-		                List<NhanVien> ketQuaTimKiem = qlspService.timKiemNhanVien(tenNV);
+			    // Kiểm tra xem người dùng đã nhập tên khách hàng hay chưa
+			    if (!tenKhachHang.isEmpty()) {
+			        try {
+			            // Gọi phương thức tìm kiếm khách hàng từ qlspService
+			            List<KhachHang> ketQuaTimKiem = qlspService.timKiemKhachHang(tenKhachHang);
 
-		                // Hiển thị kết quả tìm kiếm
-		                if (!ketQuaTimKiem.isEmpty()) {
-		                    DefaultTableModel model = (DefaultTableModel) table.getModel();
-		                    model.setRowCount(0); // Xóa bảng hiện tại để hiển thị kết quả mới
+			            // Hiển thị kết quả tìm kiếm
+			            if (!ketQuaTimKiem.isEmpty()) {
+			                DefaultTableModel model = (DefaultTableModel) table.getModel();
+			                model.setRowCount(0); // Xóa bảng hiện tại để hiển thị kết quả mới
 
-		                    for (NhanVien nv : ketQuaTimKiem) {
-		                        model.addRow(new Object[]{
-		                            nv.getMaNhanVien(),
-		                            nv.getTenNhanVien(),
-		                            nv.getChucVu(),
-		                            nv.getLuong(),
-		                            nv.getNgayBatDau()
-		                        });
-		                    }
-		                } else {
-		                    JOptionPane.showMessageDialog(null, "Không tìm thấy nhân viên nào với tên \"" + tenNV + "\"", "Kết quả tìm kiếm", JOptionPane.INFORMATION_MESSAGE);
-		                }
-		            } catch (RemoteException ex) {
-		                JOptionPane.showMessageDialog(null, "Lỗi khi tìm kiếm nhân viên!", "Thông báo", JOptionPane.ERROR_MESSAGE);
-		                ex.printStackTrace();
-		            }
-		        } else {
-		            JOptionPane.showMessageDialog(null, "Vui lòng nhập tên nhân viên cần tìm kiếm!", "Thông báo", JOptionPane.WARNING_MESSAGE);
-		        }
+			                for (KhachHang kh : ketQuaTimKiem) {
+			                    model.addRow(new Object[]{
+			                        kh.getMaKhachHang(),
+			                        kh.getTenKhachHang(),
+			                        kh.getDiaChi(),
+			                        kh.getSoDienThoai(),
+			                        kh.getEmail()
+			                    });
+			                }
+			            } else {
+			                JOptionPane.showMessageDialog(null, "Không tìm thấy khách hàng nào với tên \"" + tenKhachHang + "\"", "Kết quả tìm kiếm", JOptionPane.INFORMATION_MESSAGE);
+			            }
+			        } catch (RemoteException ex) {
+			            JOptionPane.showMessageDialog(null, "Lỗi khi tìm kiếm khách hàng!", "Thông báo", JOptionPane.ERROR_MESSAGE);
+			            ex.printStackTrace();
+			        }
+			    } else {
+			        JOptionPane.showMessageDialog(null, "Vui lòng nhập tên khách hàng cần tìm kiếm!", "Thông báo", JOptionPane.WARNING_MESSAGE);
+			    }
 		    }
 		});
 		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnNewButton.setBounds(626, 23, 100, 30);
 		contentPane.add(btnNewButton);
-		
-		btnExit = new JButton("Thoát");
-		btnExit.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				dispose();
-			}
-		});
-		btnExit.setFont(new Font("Tahoma", Font.BOLD, 16));
-		btnExit.setBounds(614, 425, 150, 30);
-		contentPane.add(btnExit);
 	}
-	// Hàm hiển thị danh sách Nhân viên
+	
+	// Hàm hiển thị danh sách Khách Hàng
 	private void refreshTable() {
 	    try {
 	        DefaultTableModel model = (DefaultTableModel) table.getModel();
 	        model.setRowCount(0); // Reset table
 
-	        List<NhanVien> nhanVienList = qlspService.xemNhanVien(); 
+	        List<KhachHang> khachHangList = qlspService.xemKhachHang(); 
 
-	        for (NhanVien nv : nhanVienList) {
+	        for (KhachHang kh : khachHangList) {
 	            model.addRow(new Object[]{
-	                nv.getMaNhanVien(),
-	                nv.getTenNhanVien(),
-	                nv.getChucVu(),
-	                nv.getLuong(),
-	                nv.getNgayBatDau()
+	                kh.getMaKhachHang(),
+	                kh.getTenKhachHang(),
+	                kh.getDiaChi(),
+	                kh.getSoDienThoai(),
+	                kh.getEmail()
 	            });
 	        }
 	    } catch (RemoteException ex) {
