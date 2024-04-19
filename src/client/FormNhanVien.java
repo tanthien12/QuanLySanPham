@@ -109,8 +109,19 @@ public class FormNhanVien extends JFrame {
 		btnDEL = new JButton("Xóa");
 		btnDEL.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-                FrameNhapNhanVien frameNhapNhanVien = new FrameNhapNhanVien("Xóa Nhân Viên", "Xóa Nhân Viên");
-                frameNhapNhanVien.setVisible(true);
+                // FrameNhapNhanVien frameNhapNhanVien = new FrameNhapNhanVien("Xóa Nhân Viên", "Xóa Nhân Viên");
+                // frameNhapNhanVien.setVisible(true);
+				// Kiểm tra xem người dùng đã chọn một hàng trong bảng hay chưa
+		        int selectedRow = table.getSelectedRow();
+		        if (selectedRow != -1) {
+		            // Lấy mã nhân viên từ hàng đã chọn
+		            int maNhanVien = (int) table.getValueAt(selectedRow, 0);
+		            
+		            // Thực hiện xóa nhân viên
+		            xoaNhanVien(maNhanVien);
+		        } else {
+		            JOptionPane.showMessageDialog(null, "Vui lòng chọn một nhân viên để xóa!", "Thông báo", JOptionPane.WARNING_MESSAGE);
+		        }
 			}
 		});
 		btnDEL.setFont(new Font("Tahoma", Font.BOLD, 16));
@@ -202,7 +213,28 @@ public class FormNhanVien extends JFrame {
 		btnExit.setFont(new Font("Tahoma", Font.BOLD, 16));
 		btnExit.setBounds(614, 425, 150, 30);
 		contentPane.add(btnExit);
+		refreshTable();
 	}
+	
+	// Hàm xóa Nhân Viên
+	private void xoaNhanVien(int maNhanVien) {
+	    try {
+	        // Gọi phương thức xóa nhân viên từ qlspService
+	        boolean result = qlspService.xoaNhanVien(maNhanVien);
+	        
+	        // Hiển thị thông báo kết quả
+	        if (result) {
+	            JOptionPane.showMessageDialog(null, "Xóa nhân viên thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+	            refreshTable(); // Refresh lại bảng sau khi xóa
+	        } else {
+	            JOptionPane.showMessageDialog(null, "Xóa nhân viên không thành công!", "Thông báo", JOptionPane.ERROR_MESSAGE);
+	        }
+	    } catch (RemoteException ex) {
+	        JOptionPane.showMessageDialog(null, "Lỗi khi xóa nhân viên!", "Thông báo", JOptionPane.ERROR_MESSAGE);
+	        ex.printStackTrace();
+	    }
+	}
+
 	// Hàm hiển thị danh sách Nhân viên
 	private void refreshTable() {
 	    try {

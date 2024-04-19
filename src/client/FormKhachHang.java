@@ -191,6 +191,7 @@ public class FormKhachHang extends JFrame {
 		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnNewButton.setBounds(626, 23, 100, 30);
 		contentPane.add(btnNewButton);
+		refreshTable();
 	}
 	
 	// Hàm hiển thị danh sách Khách Hàng

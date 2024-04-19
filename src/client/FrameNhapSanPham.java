@@ -126,8 +126,6 @@ public class FrameNhapSanPham extends JFrame {
                     themSanPham();
                 } else if (chucNang.equals("Sửa Sản Phẩm")) {
                     suaSanPham();
-                } else if (chucNang.equals("Xóa Sản Phẩm")) {
-                    xoaSanPham();
                 }
                 // Sau khi lưu, đóng cửa sổ FrameNhapSanPham
                 dispose();
@@ -194,26 +192,6 @@ public class FrameNhapSanPham extends JFrame {
             }
         } catch (NumberFormatException | RemoteException ex) {
             JOptionPane.showMessageDialog(null, "Sửa sản phẩm thất bại!");
-            ex.printStackTrace();
-        }
-    }
-
-    // Hàm xóa sản phẩm khỏi database
-    private void xoaSanPham() {
-    	try {
-            int maSanPham = Integer.parseInt(textField.getText());
-
-            // Gọi phương thức xóa sản phẩm từ qlspService
-            boolean result = qlspService.xoaSanPham(maSanPham);
-
-            // Kiểm tra kết quả và hiển thị thông báo tương ứng
-            if (result) {
-                JOptionPane.showMessageDialog(null, "Xóa sản phẩm thành công!");
-            } else {
-                JOptionPane.showMessageDialog(null, "Xóa sản phẩm thất bại!");
-            }
-        } catch (NumberFormatException | RemoteException ex) {
-            JOptionPane.showMessageDialog(null, "Xóa sản phẩm thất bại!");
             ex.printStackTrace();
         }
     }

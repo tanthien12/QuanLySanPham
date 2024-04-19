@@ -94,9 +94,9 @@ public class FormDonHang extends JFrame {
 		btnADD = new JButton("Thêm");
 		btnADD.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// Tạo và hiển thị giao diện FrameNhapSanPham cho chức năng thêm
-                FrameNhapDonHang frameNhapDonHang = new FrameNhapDonHang("Thêm Đơn Hàng", "Thêm Đơn Hàng");
-                frameNhapDonHang.setVisible(true);
+				// Tạo và hiển thị giao diện FrameNhapDonHang cho chức năng thêm
+                FrameTaoDonHang frameTaoDonHang = new FrameTaoDonHang("Thêm Đơn Hàng", "Thêm Đơn Hàng");
+                frameTaoDonHang.setVisible(true);
 			}
 		});
 		btnADD.setFont(new Font("Tahoma", Font.BOLD, 16));
@@ -106,8 +106,20 @@ public class FormDonHang extends JFrame {
 		btnDEL = new JButton("Xóa");
 		btnDEL.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-                FrameNhapDonHang frameNhapDonHang = new FrameNhapDonHang("Xóa Đơn Hàng", "Xóa Đơn Hàng");
-                frameNhapDonHang.setVisible(true);
+                 // FrameNhapDonHang frameNhapDonHang = new FrameNhapDonHang("Xóa Đơn Hàng", "Xóa Đơn Hàng");
+                 // frameNhapDonHang.setVisible(true);
+		        // Kiểm tra xem người dùng đã chọn một hàng trong bảng hay chưa
+		        int selectedRow = table.getSelectedRow();
+		        if (selectedRow != -1) {
+		            // Lấy mã đơn hàng từ hàng đã chọn
+		            int maDonHang = (int) table.getValueAt(selectedRow, 0);
+		            
+		            // Thực hiện xóa đơn hàng
+		            xoaDonHang(maDonHang);
+		        } else {
+		            JOptionPane.showMessageDialog(null, "Vui lòng chọn một đơn hàng để xóa!", "Thông báo", JOptionPane.WARNING_MESSAGE);
+		        }
+
 			}
 		});
 		btnDEL.setFont(new Font("Tahoma", Font.BOLD, 16));
@@ -200,7 +212,31 @@ public class FormDonHang extends JFrame {
 		btnExit.setFont(new Font("Tahoma", Font.BOLD, 16));
 		btnExit.setBounds(599, 441, 150, 30);
 		contentPane.add(btnExit);
+		
+		refreshTable();
 	}
+	
+	// Hàm xóa đơn hàng
+	private void xoaDonHang(int maDonHang) {
+	    try {
+	        // Gọi phương thức xóa đơn hàng từ qlspService
+	        boolean result = qlspService.xoaChiTietDonHang(maDonHang);
+	        
+	        // Hiển thị thông báo kết quả
+	        if (result) {
+	            JOptionPane.showMessageDialog(null, "Xóa đơn hàng thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+	            qlspService.xoaDonHang(maDonHang);
+	            refreshTable(); // Refresh lại bảng sau khi xóa
+	        } else {
+	            JOptionPane.showMessageDialog(null, "Xóa đơn hàng không thành công!", "Thông báo", JOptionPane.ERROR_MESSAGE);
+	        }
+	    } catch (RemoteException ex) {
+	        JOptionPane.showMessageDialog(null, "Lỗi khi xóa đơn hàng!", "Thông báo", JOptionPane.ERROR_MESSAGE);
+	        ex.printStackTrace();
+	    }
+	}
+
+
 	// Hàm hiển thị danh sách đơn hàng
     private void refreshTable() {
         try {

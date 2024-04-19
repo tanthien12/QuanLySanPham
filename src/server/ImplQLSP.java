@@ -228,7 +228,7 @@ public class ImplQLSP extends UnicastRemoteObject implements InterfaceQLSP {
 
 	@Override
 	public boolean xoaDonHang(int maDonHang) throws RemoteException {
-		String sql = "DELETE FROM donhang WHERE MaDonHang = ?";
+	    String sql = "DELETE FROM donhang WHERE MaDonHang = ?";
 	    try (PreparedStatement statement = connection.prepareStatement(sql)) {
 	        statement.setInt(1, maDonHang);
 	        int rowsDeleted = statement.executeUpdate();
@@ -314,8 +314,8 @@ public class ImplQLSP extends UnicastRemoteObject implements InterfaceQLSP {
 	            int maDonHang = resultSet.getInt("MaDonHang");
 	            int maSanPham = resultSet.getInt("MaSanPham");
 	            int soLuong = resultSet.getInt("SoLuong");
-	            double donGia = resultSet.getDouble("DonGia");
-	            ChiTietHoaDon chiTiet = new ChiTietHoaDon(id, maDonHang, maSanPham, soLuong, donGia);
+	            double tongTien = resultSet.getDouble("TongTien");
+	            ChiTietHoaDon chiTiet = new ChiTietHoaDon(id, maDonHang, maSanPham, soLuong, tongTien);
 	            chiTietList.add(chiTiet);
 	        }
 	    } catch (SQLException e) {
@@ -351,8 +351,8 @@ public class ImplQLSP extends UnicastRemoteObject implements InterfaceQLSP {
                 int maDonHangResult = resultSet.getInt("MaDonHang");
                 int maSanPham = resultSet.getInt("MaSanPham");
                 int soLuong = resultSet.getInt("SoLuong");
-                double donGia = resultSet.getDouble("DonGia");
-                ChiTietHoaDon chiTietHoaDon = new ChiTietHoaDon(id, maDonHangResult, maSanPham, soLuong, donGia);
+                double tongTien = resultSet.getDouble("TongTien");
+                ChiTietHoaDon chiTietHoaDon = new ChiTietHoaDon(id, maDonHangResult, maSanPham, soLuong, tongTien);
                 chiTietHoaDonList.add(chiTietHoaDon);
             }
         } catch (SQLException e) {
@@ -373,8 +373,8 @@ public class ImplQLSP extends UnicastRemoteObject implements InterfaceQLSP {
 		            int maDonHang = resultSet.getInt("MaDonHang");
 		            int maSanPhamResult = resultSet.getInt("MaSanPham");
 		            int soLuong = resultSet.getInt("SoLuong");
-		            double donGia = resultSet.getDouble("DonGia");
-		            ChiTietHoaDon chiTietHoaDon = new ChiTietHoaDon(id, maDonHang, maSanPhamResult, soLuong, donGia);
+		            double tongTien = resultSet.getDouble("TongTien");
+		            ChiTietHoaDon chiTietHoaDon = new ChiTietHoaDon(id, maDonHang, maSanPhamResult, soLuong, tongTien);
 		            chiTietHoaDonList.add(chiTietHoaDon);
 		        }
 		    } catch (SQLException e) {
@@ -458,6 +458,59 @@ public class ImplQLSP extends UnicastRemoteObject implements InterfaceQLSP {
 	    }
 	    return khachHangList;
 	}
+
+	@Override
+	public boolean themChiTietDonHang(ChiTietHoaDon ctdh) throws RemoteException {
+		String sql = "INSERT INTO chitietdonhang (MaDonHang, MaSanPham, SoLuong, TongTien) VALUES (?, ?, ?, ?)";
+	    try (PreparedStatement statement = connection.prepareStatement(sql)) {
+	        statement.setInt(1, ctdh.getMaDonHang());
+	        statement.setInt(2, ctdh.getMaSanPham());
+	        statement.setInt(3, ctdh.getSoLuong());
+	        statement.setDouble(4, ctdh.getTongTien());
+	        int rowsInserted = statement.executeUpdate();
+	        return rowsInserted > 0;
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        return false;
+	    }
+	}
+
+	@Override
+	public SanPham timKiemSanPham(int maSanPham) throws RemoteException {
+		SanPham sanPham = null;
+	    String sql = "SELECT * FROM sanpham WHERE MaSanPham = ?";
+	    try (PreparedStatement statement = connection.prepareStatement(sql)) {
+	        statement.setInt(1, maSanPham);
+	        ResultSet resultSet = statement.executeQuery();
+	        if (resultSet.next()) {
+	            int maSanPhamResult = resultSet.getInt("MaSanPham");
+	            String tenSP = resultSet.getString("TenSanPham");
+	            double gia = resultSet.getDouble("Gia");
+	            String moTa = resultSet.getString("MoTa");
+	            int soLuong = resultSet.getInt("SoLuongTon");
+	            sanPham = new SanPham(maSanPhamResult, tenSP, gia, moTa, soLuong);
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return sanPham;
+	}
+
+	@Override
+	public boolean xoaChiTietDonHang(int maDonHang) {
+		String sql = "DELETE FROM chitietdonhang WHERE MaDonHang = ?";
+	    try (PreparedStatement statement = connection.prepareStatement(sql)) {
+	        statement.setInt(1, maDonHang);
+	        int rowsDeleted = statement.executeUpdate();
+	        return rowsDeleted > 0;
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        return false;
+	    }
+	}
+
+
+
 	
 
 }

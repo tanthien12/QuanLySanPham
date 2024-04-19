@@ -129,8 +129,6 @@ public class FrameNhapNhanVien extends JFrame {
                     themNhanVien();
                 } else if (chucNang.equals("Sửa Nhân Viên")) {
                     suaNhanVien();
-                } else if (chucNang.equals("Xóa Nhân Viên")) {
-                    xoaNhanVien();
                 }
                 // Sau khi lưu, đóng cửa sổ FrameNhapNhanVien
                 dispose();
@@ -208,25 +206,7 @@ public class FrameNhapNhanVien extends JFrame {
         }
     }
 
-    // Hàm xóa nhan vien khỏi database
-    private void xoaNhanVien() {
-        try {
-            int maNhanVien = Integer.parseInt(textField.getText());
 
-            // Gọi phương thức xóa nhân viên từ qlspService
-            boolean result = qlspService.xoaNhanVien(maNhanVien);
-
-            // Kiểm tra kết quả và hiển thị thông báo tương ứng
-            if (result) {
-                JOptionPane.showMessageDialog(null, "Xóa nhân viên thành công!");
-            } else {
-                JOptionPane.showMessageDialog(null, "Xóa nhân viên thất bại!");
-            }
-        } catch (NumberFormatException | RemoteException ex) {
-            JOptionPane.showMessageDialog(null, "Xóa nhân viên thất bại!");
-            ex.printStackTrace();
-        }
-    }
 
     
 }

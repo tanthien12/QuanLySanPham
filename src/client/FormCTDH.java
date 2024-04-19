@@ -136,6 +136,7 @@ public class FormCTDH extends JFrame {
 		btnThot.setFont(new Font("Tahoma", Font.BOLD, 16));
 		btnThot.setBounds(490, 430, 150, 30);
 		contentPane.add(btnThot);
+		refreshTable();
 		
 		
 	}
@@ -153,7 +154,7 @@ public class FormCTDH extends JFrame {
 	                dh.getMaDonHang(),
 	                dh.getMaSanPham(),
 	                dh.getSoLuong(),
-	                dh.getDonGia()
+	                dh.getTongTien()
 	            });
 	        }
 	    } catch (RemoteException ex) {
@@ -180,7 +181,7 @@ public class FormCTDH extends JFrame {
                     dh.getMaDonHang(),
                     dh.getMaSanPham(),
                     dh.getSoLuong(),
-                    dh.getDonGia()
+                    dh.getTongTien()
                 });
             }
         } catch (RemoteException ex) {

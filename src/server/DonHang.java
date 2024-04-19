@@ -91,9 +91,12 @@ public class DonHang implements Serializable {
 
 	@Override
 	public String toString() {
-		return "DonHang [maDonHang=" + maDonHang + ", maKhachHang=" + maKhachHang + ", maNhanVien=" + maNhanVien
-				+ ", ngayDatHang=" + ngayDatHang + ", trangThai=" + trangThai + "]";
+		return "DonHang [maDonHang=" + maDonHang + ", tenDonHang=" + tenDonHang + ", maKhachHang=" + maKhachHang
+				+ ", maNhanVien=" + maNhanVien + ", ngayDatHang=" + ngayDatHang + ", trangThai=" + trangThai + "]";
 	}
+
+
+	
 	
 	
 	

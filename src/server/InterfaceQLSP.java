@@ -12,6 +12,7 @@ public interface InterfaceQLSP extends Remote {
 	boolean capNhatSanPham(SanPham sanPham) throws RemoteException;
 	List<SanPham> timKiemSanPham(String tenSanPham) throws RemoteException;
 	List<SanPham> xemSanPham() throws RemoteException;
+	SanPham timKiemSanPham(int maSanPham) throws RemoteException;
 	
 	//Nhan vien
 	boolean themNhanVien(NhanVien nhanVien) throws RemoteException;
@@ -34,6 +35,8 @@ public interface InterfaceQLSP extends Remote {
 	List<DonHang> xemDonHang() throws RemoteException;
 	
 	//Chi tiet don hang
+	boolean themChiTietDonHang(ChiTietHoaDon ctdh) throws RemoteException;
+	boolean xoaChiTietDonHang(int maDonHang)throws RemoteException;
 	List<ChiTietHoaDon> xemSachDonHang() throws RemoteException;
 	List<ChiTietHoaDon> timKiemTheoMaDonHang(int maDonHang) throws RemoteException;
 	List<ChiTietHoaDon> timKiemTheoMaSanPham(int maSanPham) throws RemoteException;
