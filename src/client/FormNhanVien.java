@@ -3,7 +3,6 @@ package client;
 import java.awt.*;
 
 
-
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
@@ -16,6 +15,7 @@ import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.sql.Date;
 import java.util.List;
 import java.awt.event.ActionEvent;
 
@@ -131,9 +131,26 @@ public class FormNhanVien extends JFrame {
 		btnSa = new JButton("Sửa");
 		btnSa.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// Tạo và hiển thị giao diện FrameNhapNhanVien cho chức năng sửa
-                FrameNhapNhanVien frameNhapNhanVien = new FrameNhapNhanVien("Sửa Nhân Viên", "Sửa Nhân Viên");
-                frameNhapNhanVien.setVisible(true);
+//				// Tạo và hiển thị giao diện FrameNhapNhanVien cho chức năng sửa
+//                FrameNhapNhanVien frameNhapNhanVien = new FrameNhapNhanVien("Sửa Nhân Viên", "Sửa Nhân Viên");
+//                frameNhapNhanVien.setVisible(true);
+				 // Kiểm tra xem người dùng đã chọn một hàng trong bảng hay chưa
+		        int selectedRow = table.getSelectedRow();
+		        if (selectedRow != -1) {
+		            // Lấy thông tin nhân viên từ hàng đã chọn
+		            int maNhanVien = (int) table.getValueAt(selectedRow, 0);
+		            String tenNhanVien = (String) table.getValueAt(selectedRow, 1);
+		            String chucVu = (String) table.getValueAt(selectedRow, 2);
+		            double luong = (double) table.getValueAt(selectedRow, 3);
+		            Date ngayBatDau = (Date) table.getValueAt(selectedRow, 4);
+
+		            // Tạo và hiển thị giao diện FrameNhapNhanVien cho chức năng sửa
+		            FrameNhapNhanVien frameNhapNhanVien = new FrameNhapNhanVien("Sửa Nhân Viên", "Sửa Nhân Viên");
+		            frameNhapNhanVien.setDataFormNhanVien(maNhanVien, tenNhanVien, chucVu, luong, ngayBatDau);
+		            frameNhapNhanVien.setVisible(true);
+		        } else {
+		            JOptionPane.showMessageDialog(null, "Vui lòng chọn một nhân viên từ bảng!", "Thông báo", JOptionPane.WARNING_MESSAGE);
+		        }
 			}
 		});
 		btnSa.setFont(new Font("Tahoma", Font.BOLD, 16));

@@ -2,6 +2,7 @@ package client;
 
 import java.awt.*;
 
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
@@ -201,6 +202,13 @@ public class FrameNhapKhachHang extends JFrame {
 	        JOptionPane.showMessageDialog(null, "Sửa khách hàng thất bại! Vui lòng kiểm tra lại thông tin nhập vào.");
 	        ex.printStackTrace();
 	    }
+	}
+	public void setDataFormKhachHang(int maKhachHang, String tenKhachHang, String diaChi, String soDienThoai, String email) {
+	    textField.setText(Integer.toString(maKhachHang));
+	    textField_1.setText(tenKhachHang);
+	    textField_2.setText(diaChi);
+	    textField_3.setText(soDienThoai);
+	    textField_4.setText(email);
 	}
 
 }

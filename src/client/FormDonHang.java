@@ -2,10 +2,12 @@ package client;
 
 import java.awt.*;
 
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
+import server.ChiTietHoaDon;
 import server.DonHang;
 import server.InterfaceQLSP;
 
@@ -14,6 +16,7 @@ import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.sql.Date;
 import java.util.List;
 import java.awt.event.ActionEvent;
 
@@ -129,9 +132,33 @@ public class FormDonHang extends JFrame {
 		btnSa = new JButton("Sửa");
 		btnSa.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// Tạo và hiển thị giao diện FrameNhapSanPham cho chức năng sửa
-                FrameNhapDonHang frameNhapDonHang = new FrameNhapDonHang("Sửa Đơn Hàng", "Sửa Đơn Hàng");
-                frameNhapDonHang.setVisible(true);
+//				// Tạo và hiển thị giao diện FrameNhapSanPham cho chức năng sửa
+//                FrameTaoDonHang frameTaoDonHang = new FrameTaoDonHang("Sửa Đơn Hàng", "Sửa Đơn Hàng");
+//                frameTaoDonHang.setVisible(true);
+				try {
+					 // Kiểm tra xem người dùng đã chọn một hàng trong bảng hay chưa
+			        int selectedRow = table.getSelectedRow();
+			        if (selectedRow != -1) {
+			            // Lấy thông tin đơn hàng từ hàng đã chọn
+			            int maDonHang = (int) table.getValueAt(selectedRow, 0);
+			            String tenDonHang = (String) table.getValueAt(selectedRow, 1);
+			            int maKhachHang = (int) table.getValueAt(selectedRow, 2);
+			            int maNhanVien = (int) table.getValueAt(selectedRow, 3);
+			            Date ngayDatHang = (Date) table.getValueAt(selectedRow, 4);
+			            String trangThai = (String) table.getValueAt(selectedRow, 5);
+			            ChiTietHoaDon ctdh = qlspService.timKiemTheoMaDonHang(maDonHang);
+
+			            // Tạo và hiển thị giao diện FrameTaoDonHang cho chức năng sửa
+			            FrameTaoDonHang frameTaoDonHang = new FrameTaoDonHang("Sửa Đơn Hàng", "Sửa Đơn Hàng");
+//			            frameTaoDonHang.setDataFormDonHang(maDonHang, tenDonHang, maKhachHang, maNhanVien, ngayDatHang, trangThai);
+			            frameTaoDonHang.setDataFormDonHang(maDonHang, tenDonHang, maKhachHang, maNhanVien, ngayDatHang, trangThai, ctdh.getMaSanPham(), ctdh.getSoLuong(), ctdh.getTongTien());
+			            frameTaoDonHang.setVisible(true);
+			        } else {
+			            JOptionPane.showMessageDialog(null, "Vui lòng chọn một đơn hàng từ bảng!", "Thông báo", JOptionPane.WARNING_MESSAGE);
+			        }
+				} catch (Exception e2) {
+					// TODO: handle exception
+				}
 			}
 		});
 		btnSa.setFont(new Font("Tahoma", Font.BOLD, 16));

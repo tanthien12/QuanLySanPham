@@ -163,29 +163,44 @@ public class FormCTDH extends JFrame {
 	}
 	
 	// Hàm tìm kiếm chi tiết đơn hàng
-    private void search(String selectedOption, int keyword) {
-        try {
-            DefaultTableModel model = (DefaultTableModel) table.getModel();
-            model.setRowCount(0); // Reset table
+	private void search(String selectedOption, int keyword) {
+	    try {
+	        DefaultTableModel model = (DefaultTableModel) table.getModel();
+	        model.setRowCount(0); // Reset table
+	        
+	        List<ChiTietHoaDon> donHangList;
+	        if (selectedOption.equals("Mã đơn hàng")) {
+	            ChiTietHoaDon ctdh = qlspService.timKiemTheoMaDonHang(keyword);
+	            if (ctdh != null) {
+	                model.addRow(new Object[]{
+	                        ctdh.getId(),
+	                        ctdh.getMaDonHang(),
+	                        ctdh.getMaSanPham(),
+	                        ctdh.getSoLuong(),
+	                        ctdh.getTongTien()
+	                    });
+	            } else {
+	                JOptionPane.showMessageDialog(null, "Không tìm thấy đơn hàng với mã " + keyword, "Không tìm thấy", JOptionPane.WARNING_MESSAGE);
+	            }
+	        } else {
+	            donHangList = qlspService.timKiemTheoMaSanPham(keyword);
+	            if (!donHangList.isEmpty()) {
+	                for (ChiTietHoaDon dh : donHangList) {
+	                    model.addRow(new Object[]{
+	                        dh.getId(),
+	                        dh.getMaDonHang(),
+	                        dh.getMaSanPham(),
+	                        dh.getSoLuong(),
+	                        dh.getTongTien()
+	                    });
+	                }
+	            } else {
+	                JOptionPane.showMessageDialog(null, "Không tìm thấy sản phẩm với mã " + keyword, "Không tìm thấy", JOptionPane.WARNING_MESSAGE);
+	            }
+	        }
+	    } catch (RemoteException ex) {
+	        ex.printStackTrace();
+	    }
+	}
 
-            List<ChiTietHoaDon> donHangList;
-            if (selectedOption.equals("Mã đơn hàng")) {
-                donHangList = qlspService.timKiemTheoMaDonHang(keyword);
-            } else {
-                donHangList = qlspService.timKiemTheoMaSanPham(keyword);
-            }
-
-            for (ChiTietHoaDon dh : donHangList) {
-                model.addRow(new Object[]{
-                    dh.getId(),
-                    dh.getMaDonHang(),
-                    dh.getMaSanPham(),
-                    dh.getSoLuong(),
-                    dh.getTongTien()
-                });
-            }
-        } catch (RemoteException ex) {
-            ex.printStackTrace();
-        }
-    }
 }

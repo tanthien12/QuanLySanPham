@@ -1,6 +1,7 @@
 package server;
 
 import java.rmi.Remote;
+
 import java.rmi.RemoteException;
 import java.util.List;
 
@@ -37,8 +38,9 @@ public interface InterfaceQLSP extends Remote {
 	//Chi tiet don hang
 	boolean themChiTietDonHang(ChiTietHoaDon ctdh) throws RemoteException;
 	boolean xoaChiTietDonHang(int maDonHang)throws RemoteException;
+	boolean capNhatCTDH (ChiTietHoaDon ctdh) throws RemoteException;
 	List<ChiTietHoaDon> xemSachDonHang() throws RemoteException;
-	List<ChiTietHoaDon> timKiemTheoMaDonHang(int maDonHang) throws RemoteException;
+	ChiTietHoaDon timKiemTheoMaDonHang(int maDonHang) throws RemoteException;
 	List<ChiTietHoaDon> timKiemTheoMaSanPham(int maSanPham) throws RemoteException;
 	
 	// Tai khoan

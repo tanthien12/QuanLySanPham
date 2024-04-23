@@ -205,7 +205,13 @@ public class FrameNhapNhanVien extends JFrame {
             ex.printStackTrace();
         }
     }
-
+    public void setDataFormNhanVien(int maNhanVien, String tenNhanVien, String chucVu, double luong, Date ngayBatDau) {
+        textField.setText(Integer.toString(maNhanVien));
+        textField_1.setText(tenNhanVien);
+        textField_2.setText(chucVu);
+        textField_3.setText(Double.toString(luong));
+        textField_4.setText(new SimpleDateFormat("yyyy-MM-dd").format(ngayBatDau));
+    }
 
 
     

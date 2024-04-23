@@ -2,8 +2,6 @@ package client;
 
 import java.awt.*;
 
-
-
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
@@ -119,9 +117,23 @@ public class FormKhachHang extends JFrame {
 		btnSa = new JButton("Sửa");
 		btnSa.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// Tạo và hiển thị giao diện FrameNhapNhanVien cho chức năng sửa
-                FrameNhapKhachHang frameNhapKhachHang = new FrameNhapKhachHang("Sửa Khách Hàng", "Sửa Khách Hàng");
-                frameNhapKhachHang.setVisible(true);
+				 // Kiểm tra xem người dùng đã chọn một hàng trong bảng hay chưa
+		        int selectedRow = table.getSelectedRow();
+		        if (selectedRow != -1) {
+		            // Lấy thông tin khách hàng từ hàng đã chọn
+		            int maKhachHang = (int) table.getValueAt(selectedRow, 0);
+		            String tenKhachHang = (String) table.getValueAt(selectedRow, 1);
+		            String diaChi = (String) table.getValueAt(selectedRow, 2);
+		            String soDienThoai = (String) table.getValueAt(selectedRow, 3);
+		            String email = (String) table.getValueAt(selectedRow, 4);
+
+		            // Tạo và hiển thị giao diện FrameNhapKhachHang cho chức năng sửa
+		            FrameNhapKhachHang frameNhapKhachHang = new FrameNhapKhachHang("Sửa Khách Hàng", "Sửa Khách Hàng");
+		            frameNhapKhachHang.setDataFormKhachHang(maKhachHang, tenKhachHang, diaChi, soDienThoai, email);
+		            frameNhapKhachHang.setVisible(true);
+		        } else {
+		            JOptionPane.showMessageDialog(null, "Vui lòng chọn một khách hàng từ bảng!", "Thông báo", JOptionPane.WARNING_MESSAGE);
+		        }
 			}
 		});
 		btnSa.setFont(new Font("Tahoma", Font.BOLD, 16));

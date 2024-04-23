@@ -1,6 +1,7 @@
 package server;
 
 import java.rmi.Naming;
+
 import java.rmi.registry.LocateRegistry;
 
 public class Server {

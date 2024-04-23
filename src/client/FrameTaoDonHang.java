@@ -279,6 +279,8 @@ public class FrameTaoDonHang extends JFrame {
 
     	        // Kiểm tra kết quả và hiển thị thông báo tương ứng
     	        if (result) {
+    	        	ChiTietHoaDon ctdh = new ChiTietHoaDon(maDonHang, maDonHang, maKhachHang, maNhanVien);
+    	        	qlspService.capNhatCTDH(ctdh);
     	            JOptionPane.showMessageDialog(null, "Sửa đơn hàng thành công!");
     	        } else {
     	            JOptionPane.showMessageDialog(null, "Sửa đơn hàng thất bại!");
@@ -307,5 +309,20 @@ public class FrameTaoDonHang extends JFrame {
             JOptionPane.showMessageDialog(null, "Lỗi khi tính tổng tiền!");
             ex.printStackTrace();
         }
+    }
+ // Hàm để thiết lập dữ liệu vào các trường của FrameTaoDonHang để chỉnh sửa thông tin của đơn hàng đã tồn tại
+    public void setDataFormDonHang(int maDonHang, String tenDonHang, int maKhachHang, int maNhanVien, Date ngayDatHang, String trangThai, int maSanPham, int soLuong, double tongTien) {
+        // Thiết lập dữ liệu cho chi tiết đơn hàng
+        textField.setText(Integer.toString(maDonHang)); // Mã đơn hàng
+        textField_1.setText(tenDonHang); // Tên đơn hàng
+        textField_2.setText(Integer.toString(maKhachHang)); // Mã khách hàng
+        textField_3.setText(Integer.toString(maNhanVien)); // Mã nhân viên
+        textField_4.setText(ngayDatHang.toString()); // Ngày đặt hàng
+        comboBox.setSelectedItem(trangThai); // Trạng thái
+
+        // Thiết lập dữ liệu cho chi tiết sản phẩm
+        textField_5.setText(Integer.toString(maSanPham)); // Mã sản phẩm
+        textField_6.setText(Integer.toString(soLuong)); // Số lượng
+        textField_7.setText(Double.toString(tongTien)); // Tổng tiền
     }
 }

@@ -195,5 +195,11 @@ public class FrameNhapSanPham extends JFrame {
             ex.printStackTrace();
         }
     }
-    
+    public void setDataFormSanPham(int maSanPham, String tenSanPham, double gia, String moTa, int soLuong) {
+        textField.setText(Integer.toString(maSanPham));
+        textField_1.setText(tenSanPham);
+        textField_2.setText(Double.toString(gia));
+        textField_3.setText(moTa);
+        textField_4.setText(Integer.toString(soLuong));
+    }
 }

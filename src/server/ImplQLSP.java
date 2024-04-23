@@ -2,6 +2,7 @@ package server;
 
 import java.rmi.RemoteException;
 
+
 import java.rmi.server.UnicastRemoteObject;
 import java.sql.Connection;
 import java.sql.Date;
@@ -340,8 +341,8 @@ public class ImplQLSP extends UnicastRemoteObject implements InterfaceQLSP {
 	}
 
 	@Override
-	public List<ChiTietHoaDon> timKiemTheoMaDonHang(int maDonHang) throws RemoteException {
-		List<ChiTietHoaDon> chiTietHoaDonList = new ArrayList<>();
+	public ChiTietHoaDon timKiemTheoMaDonHang(int maDonHang) throws RemoteException {
+		ChiTietHoaDon ctdh = null;
         String sql = "SELECT * FROM chitietdonhang WHERE MaDonHang = ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, maDonHang);
@@ -352,13 +353,12 @@ public class ImplQLSP extends UnicastRemoteObject implements InterfaceQLSP {
                 int maSanPham = resultSet.getInt("MaSanPham");
                 int soLuong = resultSet.getInt("SoLuong");
                 double tongTien = resultSet.getDouble("TongTien");
-                ChiTietHoaDon chiTietHoaDon = new ChiTietHoaDon(id, maDonHangResult, maSanPham, soLuong, tongTien);
-                chiTietHoaDonList.add(chiTietHoaDon);
+                ctdh = new ChiTietHoaDon(id, maDonHangResult, maSanPham, soLuong, tongTien);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return chiTietHoaDonList;
+        return ctdh;
     }
 
 	@Override
@@ -503,6 +503,22 @@ public class ImplQLSP extends UnicastRemoteObject implements InterfaceQLSP {
 	        statement.setInt(1, maDonHang);
 	        int rowsDeleted = statement.executeUpdate();
 	        return rowsDeleted > 0;
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        return false;
+	    }
+	}
+
+	@Override
+	public boolean capNhatCTDH(ChiTietHoaDon ctdh) throws RemoteException {
+		String sql = "UPDATE chitietdonhang SET SoLuong = ?, TongTien = ? WHERE MaDonHang = ? AND MaSanPham = ?";
+	    try (PreparedStatement statement = connection.prepareStatement(sql)) {
+	        statement.setInt(1, ctdh.getSoLuong());
+	        statement.setDouble(2, ctdh.getTongTien());
+	        statement.setInt(3, ctdh.getMaDonHang());
+	        statement.setInt(4, ctdh.getMaSanPham());
+	        int rowsUpdated = statement.executeUpdate();
+	        return rowsUpdated > 0;
 	    } catch (SQLException e) {
 	        e.printStackTrace();
 	        return false;
